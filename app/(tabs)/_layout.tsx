@@ -26,13 +26,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="list"
+        name="diary/index"
         options={{
-          title: 'list',
+          title: 'diary',
           tabBarLabel: () => null,
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="list"
+              name="cloud"
               size={24}
               color={focused ? '#7965c1' : '#909090'}
             />
@@ -40,7 +40,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="chart"
+        name="chart/index"
         options={{
           title: 'chart',
           tabBarLabel: () => null,
@@ -54,13 +54,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="training"
+        name="training/index"
         options={{
           title: 'training',
           tabBarLabel: () => null,
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="checkmark-circle"
+              name="moon"
               size={24}
               color={focused ? '#7965c1' : '#909090'}
             />
@@ -68,7 +68,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="setting"
+        name="setting/index"
         options={{
           title: 'setting',
           tabBarLabel: () => null,
