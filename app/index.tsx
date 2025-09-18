@@ -1,12 +1,12 @@
 import { colors } from '@/utils/colors';
-import { BoldText, MediumText } from '@/components/textComponents';
-import { Redirect } from 'expo-router';
+import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
+import { Redirect, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image } from 'react-native';
 import styled from 'styled-components/native';
 
 export default function Index() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   if (isLoggedIn) {
     return <Redirect href="/(tabs)/home" />;
@@ -19,10 +19,18 @@ export default function Index() {
         />
         <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
         <Title>소몽일기</Title>
-        <LoginButton onPress={() => {}}>
+        <LoginButton
+          onPress={() => {
+            router.push('/(stacks)/login');
+          }}
+        >
           <ButtonText>로그인</ButtonText>
         </LoginButton>
-        <RegisterButton onPress={() => {}}>
+        <RegisterButton
+          onPress={() => {
+            router.push('/(stacks)/register');
+          }}
+        >
           <ButtonText>회원가입</ButtonText>
         </RegisterButton>
       </Container>
@@ -30,7 +38,7 @@ export default function Index() {
   }
 }
 
-const Container = styled.View`
+const Container = styled(BasicContainer)`
   flex: 1;
   background-color: ${colors.backgroundPurple};
   padding: 0 24px;
@@ -61,11 +69,9 @@ const Button = styled.Pressable`
   width: 100%;
   padding: 20px 0;
   border-radius: 8px;
-  margin-bottom: 12px;
 `;
 
 const ButtonText = styled(BoldText)`
-  font-family: 'NotoSansKR_Bold';
   color: ${colors.white};
   font-size: 20px;
   line-height: 22px;
@@ -74,6 +80,7 @@ const ButtonText = styled(BoldText)`
 
 const LoginButton = styled(Button)`
   background-color: ${colors.lightPurple};
+  margin-bottom: 12px;
 `;
 
 const RegisterButton = styled(Button)`
