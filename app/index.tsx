@@ -1,5 +1,5 @@
 import { colors } from '@/utils/colors';
-import { BoldText, MediumText } from '@/utils/textComponents';
+import { BoldText, MediumText } from '@/components/textComponents';
 import { Redirect } from 'expo-router';
 import { useState } from 'react';
 import { Image } from 'react-native';
