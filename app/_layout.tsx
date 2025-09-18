@@ -12,5 +12,5 @@ export default function RootLayout() {
 
 const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: #000;
+  background-color: #0c1639;
 `;

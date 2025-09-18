@@ -13,12 +13,13 @@ export default function TodayDreamRecord({
       <TodayDreamTitle>{todayDreamRecord?.title}</TodayDreamTitle>
       <TodayDreamContent>{todayDreamRecord?.content}</TodayDreamContent>
       <TodayDreamDate>
-        {todayDreamRecord?.date.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long',
-        })}
+        {todayDreamRecord?.date &&
+          new Date(todayDreamRecord.date).toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+          })}
       </TodayDreamDate>
       <TodayDreamEditButton>
         <TodayDreamEditButtonText>수정하기</TodayDreamEditButtonText>
