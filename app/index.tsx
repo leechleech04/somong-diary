@@ -1,3 +1,5 @@
+import { colors } from '@/utils/colors';
+import { BoldText, MediumText } from '@/utils/textComponents';
 import { Redirect } from 'expo-router';
 import { useState } from 'react';
 import { Image } from 'react-native';
@@ -7,7 +9,7 @@ export default function Index() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   if (isLoggedIn) {
-    return <Redirect href="/(tabs)" />;
+    return <Redirect href="/(tabs)/home" />;
   } else {
     return (
       <Container>
@@ -18,10 +20,10 @@ export default function Index() {
         <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
         <Title>소몽일기</Title>
         <LoginButton onPress={() => {}}>
-          <LoginButtonText>로그인</LoginButtonText>
+          <ButtonText>로그인</ButtonText>
         </LoginButton>
         <RegisterButton onPress={() => {}}>
-          <RegisterButtonText>회원가입</RegisterButtonText>
+          <ButtonText>회원가입</ButtonText>
         </RegisterButton>
       </Container>
     );
@@ -30,7 +32,7 @@ export default function Index() {
 
 const Container = styled.View`
   flex: 1;
-  background-color: #0c1639;
+  background-color: ${colors.backgroundPurple};
   padding: 0 24px;
 `;
 
@@ -39,44 +41,41 @@ const MainImage = styled.Image`
   flex: 1;
 `;
 
-const MainComment = styled.Text`
-  color: #e8c087;
+const MainComment = styled(MediumText)`
   font-size: 24px;
-  font-weight: 600;
+  line-height: 28px;
+  color: ${colors.yellow};
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 `;
 
-const Title = styled.Text`
-  color: #fff;
+const Title = styled(BoldText)`
   font-size: 40px;
-  font-weight: 700;
+  line-height: 44px;
+  color: ${colors.white};
   text-align: center;
   margin-bottom: 100px;
 `;
 
 const Button = styled.Pressable`
   width: 100%;
-  padding: 16px 0;
+  padding: 20px 0;
   border-radius: 8px;
   margin-bottom: 12px;
 `;
 
-const ButtonText = styled.Text`
-  color: #fff;
+const ButtonText = styled(BoldText)`
+  font-family: 'NotoSansKR_Bold';
+  color: ${colors.white};
   font-size: 20px;
-  font-weight: 600;
+  line-height: 22px;
   text-align: center;
 `;
 
 const LoginButton = styled(Button)`
-  background-color: #7965c1;
+  background-color: ${colors.lightPurple};
 `;
-
-const LoginButtonText = styled(ButtonText)``;
 
 const RegisterButton = styled(Button)`
-  background-color: #483aa0;
+  background-color: ${colors.purple};
 `;
-
-const RegisterButtonText = styled(ButtonText)``;
