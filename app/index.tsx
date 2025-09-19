@@ -28,7 +28,7 @@ export default function Index() {
         </LoginButton>
         <RegisterButton
           onPress={() => {
-            router.push('/(stacks)/register');
+            router.push('/(stacks)/verifyEmail');
           }}
         >
           <ButtonText>회원가입</ButtonText>
