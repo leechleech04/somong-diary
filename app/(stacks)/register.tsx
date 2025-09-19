@@ -111,13 +111,13 @@ const Register = () => {
         </AuthInputContainer>
       </MainContainer>
       <RegisterButton disabled={isRegistered} onPress={handleRegister}>
-        <RegisterButtonText>회원가입</RegisterButtonText>
+        <BasicNextButtonText>회원가입</BasicNextButtonText>
       </RegisterButton>
       <NextButton
         disabled={!isRegistered}
         onPress={() => router.push({ pathname: '/(stacks)/login' })}
       >
-        <NextButtonText>로그인</NextButtonText>
+        <BasicNextButtonText>로그인</BasicNextButtonText>
       </NextButton>
     </BasicContainer>
   );
@@ -155,13 +155,9 @@ const RegisterButton = styled(BasicNextButton)<{ disabled: boolean }>`
     disabled ? colors.gray : colors.lightPurple};
 `;
 
-const RegisterButtonText = styled(BasicNextButtonText)``;
-
 const NextButton = styled(BasicNextButton)<{ disabled: boolean }>`
   background-color: ${({ disabled }: { disabled: boolean }) =>
     disabled ? colors.gray : colors.lightPurple};
 `;
-
-const NextButtonText = styled(BasicNextButtonText)``;
 
 export default Register;
