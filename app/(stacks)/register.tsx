@@ -9,6 +9,7 @@ import {
   BasicNextButtonText,
   MediumText,
 } from '@/utils/utilComponents';
+import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import styled from 'styled-components/native';
@@ -45,6 +46,24 @@ const Register = () => {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
+
+    const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/register`;
+
+    try {
+      const response = await axios.post(apiUrl, {
+        email,
+        username,
+        password,
+        confirmPassword,
+      });
+      if (response.status === 200) {
+        setIsRegistered(true);
+      }
+      alert(response.data.message);
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -63,6 +82,8 @@ const Register = () => {
             placeholder="이름을 입력해주세요."
             value={username}
             onChangeText={setUsername}
+            editable={!isRegistered}
+            selectTextOnFocus={!isRegistered}
           />
         </AuthInputContainer>
         <AuthInputContainer>
@@ -71,6 +92,9 @@ const Register = () => {
             placeholder="비밀번호를 입력해주세요."
             value={password}
             onChangeText={setPassword}
+            secureTextEntry={true}
+            editable={!isRegistered}
+            selectTextOnFocus={!isRegistered}
           />
           <PasswordRules>영문, 숫자, 특수문자 포함 8자 이상</PasswordRules>
         </AuthInputContainer>
@@ -80,10 +104,13 @@ const Register = () => {
             placeholder="비밀번호를 다시 입력해주세요."
             value={confirmPassword}
             onChangeText={setConfirmPassword}
+            secureTextEntry={true}
+            editable={!isRegistered}
+            selectTextOnFocus={!isRegistered}
           />
         </AuthInputContainer>
       </MainContainer>
-      <RegisterButton onPress={handleRegister}>
+      <RegisterButton disabled={isRegistered} onPress={handleRegister}>
         <RegisterButtonText>회원가입</RegisterButtonText>
       </RegisterButton>
       <NextButton
@@ -104,12 +131,14 @@ const EmailInput = styled(AuthInput)`
   background-color: ${colors.gray};
 `;
 
-const UsernameInput = styled(AuthInput)`
-  background-color: ${colors.white};
+const UsernameInput = styled(AuthInput)<{ editable: boolean }>`
+  background-color: ${({ editable }: { editable: boolean }) =>
+    editable ? colors.white : colors.gray};
 `;
 
-const PasswordInput = styled(AuthInput)`
-  background-color: ${colors.white};
+const PasswordInput = styled(AuthInput)<{ editable: boolean }>`
+  background-color: ${({ editable }: { editable: boolean }) =>
+    editable ? colors.white : colors.gray};
 `;
 
 const PasswordRules = styled(MediumText)`
@@ -122,7 +151,8 @@ const PasswordRules = styled(MediumText)`
 
 const RegisterButton = styled(BasicNextButton)<{ disabled: boolean }>`
   margin-bottom: 12px;
-  background-color: ${colors.lightPurple};
+  background-color: ${({ disabled }: { disabled: boolean }) =>
+    disabled ? colors.gray : colors.lightPurple};
 `;
 
 const RegisterButtonText = styled(BasicNextButtonText)``;
