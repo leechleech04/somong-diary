@@ -1,41 +1,35 @@
 import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
-import { Redirect, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
 export default function Index() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
-  if (isLoggedIn) {
-    return <Redirect href="/(tabs)/home" />;
-  } else {
-    return (
-      <Container>
-        <MainImage
-          source={require('@/assets/images/main-image.png')}
-          resizeMode="contain"
-        />
-        <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
-        <Title>소몽일기</Title>
-        <LoginButton
-          onPress={() => {
-            router.push('/(stacks)/login');
-          }}
-        >
-          <ButtonText>로그인</ButtonText>
-        </LoginButton>
-        <RegisterButton
-          onPress={() => {
-            router.push('/(stacks)/verifyEmail');
-          }}
-        >
-          <ButtonText>회원가입</ButtonText>
-        </RegisterButton>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <MainImage
+        source={require('@/assets/images/main-image.png')}
+        resizeMode="contain"
+      />
+      <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
+      <Title>소몽일기</Title>
+      <LoginButton
+        onPress={() => {
+          router.push('/(stacks)/login');
+        }}
+      >
+        <ButtonText>로그인</ButtonText>
+      </LoginButton>
+      <RegisterButton
+        onPress={() => {
+          router.push('/(stacks)/verifyEmail');
+        }}
+      >
+        <ButtonText>회원가입</ButtonText>
+      </RegisterButton>
+    </Container>
+  );
 }
 
 const Container = styled(BasicContainer)`

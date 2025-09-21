@@ -12,6 +12,11 @@ import {
 import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import styled from 'styled-components/native';
 
 const Register = () => {
@@ -67,59 +72,67 @@ const Register = () => {
   };
 
   return (
-    <BasicContainer>
-      <AuthHeader title="회원가입" />
-      <MainContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>이메일</AuthInputLabel>
-          <EmailInput editable={false} selectTextOnFocus={false}>
-            {email}
-          </EmailInput>
-        </AuthInputContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>이름</AuthInputLabel>
-          <UsernameInput
-            placeholder="이름을 입력해주세요."
-            value={username}
-            onChangeText={setUsername}
-            editable={!isRegistered}
-            selectTextOnFocus={!isRegistered}
-          />
-        </AuthInputContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>비밀번호</AuthInputLabel>
-          <PasswordInput
-            placeholder="비밀번호를 입력해주세요."
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-            editable={!isRegistered}
-            selectTextOnFocus={!isRegistered}
-          />
-          <PasswordRules>영문, 숫자, 특수문자 포함 8자 이상</PasswordRules>
-        </AuthInputContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>비밀번호 확인</AuthInputLabel>
-          <PasswordInput
-            placeholder="비밀번호를 다시 입력해주세요."
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry={true}
-            editable={!isRegistered}
-            selectTextOnFocus={!isRegistered}
-          />
-        </AuthInputContainer>
-      </MainContainer>
-      <RegisterButton disabled={isRegistered} onPress={handleRegister}>
-        <BasicNextButtonText>회원가입</BasicNextButtonText>
-      </RegisterButton>
-      <NextButton
-        disabled={!isRegistered}
-        onPress={() => router.push({ pathname: '/(stacks)/login' })}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback
+        style={{ flex: 1 }}
+        onPress={Keyboard.dismiss}
+        accessible={false}
       >
-        <BasicNextButtonText>로그인</BasicNextButtonText>
-      </NextButton>
-    </BasicContainer>
+        <BasicContainer>
+          <AuthHeader title="회원가입" />
+          <MainContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>이메일</AuthInputLabel>
+              <EmailInput editable={false} selectTextOnFocus={false}>
+                {email}
+              </EmailInput>
+            </AuthInputContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>이름</AuthInputLabel>
+              <UsernameInput
+                placeholder="이름을 입력해주세요."
+                value={username}
+                onChangeText={setUsername}
+                editable={!isRegistered}
+                selectTextOnFocus={!isRegistered}
+              />
+            </AuthInputContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>비밀번호</AuthInputLabel>
+              <PasswordInput
+                placeholder="비밀번호를 입력해주세요."
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+                editable={!isRegistered}
+                selectTextOnFocus={!isRegistered}
+              />
+              <PasswordRules>영문, 숫자, 특수문자 포함 8자 이상</PasswordRules>
+            </AuthInputContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>비밀번호 확인</AuthInputLabel>
+              <PasswordInput
+                placeholder="비밀번호를 다시 입력해주세요."
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={true}
+                editable={!isRegistered}
+                selectTextOnFocus={!isRegistered}
+              />
+            </AuthInputContainer>
+          </MainContainer>
+          <RegisterButton disabled={isRegistered} onPress={handleRegister}>
+            <BasicNextButtonText>회원가입</BasicNextButtonText>
+          </RegisterButton>
+          <NextButton
+            disabled={!isRegistered}
+            onPress={() => router.push({ pathname: '/(stacks)/login' })}
+          >
+            <BasicNextButtonText>로그인</BasicNextButtonText>
+          </NextButton>
+        </BasicContainer>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

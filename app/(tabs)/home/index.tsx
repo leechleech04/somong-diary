@@ -1,16 +1,16 @@
 import AnalysisDreamModal from '@/components/home/AnlysisDreamModal';
 import TodayDreamAnalysis from '@/components/home/TodayDreamAnalysis';
-import TodayDreamContainer from '@/components/home/TodayDreamRecord';
+import TodayDreamDiary from '@/components/home/TodayDreamDiary';
 import WriteDreamModal from '@/components/home/WriteDreamModal';
-import { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import styled from 'styled-components/native';
+import { DreamDiary } from '@/types/dream';
+import { getAccessTokenFromMemory } from '@/utils/authToken';
+import { BasicContainer } from '@/utils/utilComponents';
 import axios from 'axios';
-import { DreamRecord } from '@/types/dream';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [hasTodayDream, setHasTodayDream] = useState(false);
-  const [todayDreamRecord, setTodayDreamRecord] = useState<DreamRecord | null>(
+  const [todayDreamDiary, setTodayDreamDiary] = useState<DreamDiary | null>(
     null
   );
 
@@ -25,11 +25,36 @@ export default function Home() {
   );
 
   useEffect(() => {
-    // 오늘의 꿈, 해몽 가져오기, state 변경
+    const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/getTodayDream`;
+    const fetchTodayDream = async () => {
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
+          },
+        });
+        if (response.status === 200 && response.data) {
+          setTodayDreamDiary(response.data.dreamDiary);
+          setHasTodayDream(true);
+          setIsWriteDreamModalVisible(false);
+          if (response.data.dreamAnalysis) {
+            setTodayDreamAnalysis(response.data.dreamAnalysis);
+            setHasDreamAnalysis(true);
+            setIsDreamAnalysisModalVisible(false);
+          } else {
+            setIsDreamAnalysisModalVisible(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching today dream:', error);
+      }
+    };
+
+    fetchTodayDream();
   }, []);
 
   return (
-    <Container>
+    <BasicContainer>
       {isWriteDreamModalVisible && !hasTodayDream && (
         <WriteDreamModal
           onClose={() => {
@@ -44,18 +69,10 @@ export default function Home() {
           }}
         />
       )}
-      {hasTodayDream && (
-        <TodayDreamContainer todayDreamRecord={todayDreamRecord} />
-      )}
+      {hasTodayDream && <TodayDreamDiary todayDreamDiary={todayDreamDiary} />}
       {hasDreamAnalysis && (
         <TodayDreamAnalysis todayDreamAnalysis={todayDreamAnalysis} />
       )}
-    </Container>
+    </BasicContainer>
   );
 }
-
-const Container = styled(ScrollView)`
-  flex: 1;
-  background-color: #000;
-  padding: 0 24px;
-`;

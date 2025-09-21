@@ -1,20 +1,20 @@
-import { DreamRecord } from '@/types/dream';
+import { DreamDiary } from '@/types/dream';
 import { LinearGradient } from 'expo-linear-gradient';
 import styled from 'styled-components/native';
 
-export default function TodayDreamRecord({
-  todayDreamRecord,
+export default function TodayDreamDiary({
+  todayDreamDiary,
 }: {
-  todayDreamRecord: DreamRecord | null;
+  todayDreamDiary: DreamDiary | null;
 }) {
   return (
     <Container>
       <TodayDreamText>오늘의 꿈</TodayDreamText>
-      <TodayDreamTitle>{todayDreamRecord?.title}</TodayDreamTitle>
-      <TodayDreamContent>{todayDreamRecord?.content}</TodayDreamContent>
+      <TodayDreamTitle>{todayDreamDiary?.title}</TodayDreamTitle>
+      <TodayDreamContent>{todayDreamDiary?.content}</TodayDreamContent>
       <TodayDreamDate>
-        {todayDreamRecord?.date &&
-          new Date(todayDreamRecord.date).toLocaleDateString('ko-KR', {
+        {todayDreamDiary?.date &&
+          new Date(todayDreamDiary.date).toLocaleDateString('ko-KR', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',

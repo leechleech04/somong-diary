@@ -5,7 +5,7 @@ let accessTokenMemory: string | null = null;
 export async function saveTokens(accessToken: string, refreshToken: string) {
   accessTokenMemory = accessToken;
   await SecureStore.setItemAsync(
-    process.env.EXPO_PUBLIC_REFRESH_TOKEN_SECRET!,
+    process.env.EXPO_PUBLIC_REFRESH_TOKEN_KEY!,
     refreshToken
   );
 }
@@ -20,13 +20,11 @@ export function getAccessTokenFromMemory() {
 
 export async function getRefreshTokenFromSecureStore() {
   return await SecureStore.getItemAsync(
-    process.env.EXPO_PUBLIC_REFRESH_TOKEN_SECRET!
+    process.env.EXPO_PUBLIC_REFRESH_TOKEN_KEY!
   );
 }
 
 export async function deleteTokens() {
   accessTokenMemory = null;
-  await SecureStore.deleteItemAsync(
-    process.env.EXPO_PUBLIC_REFRESH_TOKEN_SECRET!
-  );
+  await SecureStore.deleteItemAsync(process.env.EXPO_PUBLIC_REFRESH_TOKEN_KEY!);
 }

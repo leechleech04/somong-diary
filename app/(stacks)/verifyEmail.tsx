@@ -12,6 +12,11 @@ import {
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import styled from 'styled-components/native';
 
 export default function verifyEmail() {
@@ -65,72 +70,80 @@ export default function verifyEmail() {
   };
 
   return (
-    <BasicContainer>
-      <AuthHeader title="회원가입" />
-      <MainContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>이메일</AuthInputLabel>
-          <EmailInput
-            placeholder="이메일을 입력해주세요."
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="emailAddress"
-            value={email ?? undefined}
-            onChangeText={(text: string) => {
-              setEmail(text);
-              setIsEmailVerified(false);
-              setIsCodeSent(false);
-              setCode(null);
-            }}
-            editable={!isCodeSent}
-            selectTextOnFocus={!isCodeSent}
-            isCodeSent={isCodeSent}
-          />
-          <GetCodeButton
-            onPress={handleGetCode}
-            disabled={isEmailVerified}
-            isEmailVerified={isEmailVerified}
-          >
-            <GetCodeButtonText>
-              {!isCodeSent ? '인증번호 요청' : '인증번호 재요청'}
-            </GetCodeButtonText>
-          </GetCodeButton>
-        </AuthInputContainer>
-        {isCodeSent && (
-          <CodeInputContainer>
-            <CodeInput
-              placeholder="인증번호를 입력해주세요."
-              placeholderTextColor={colors.lightGray}
-              selectionColor={colors.white}
-              keyboardType="numeric"
-              value={code ?? undefined}
-              onChangeText={(text: string) => setCode(text)}
-              editable={!isEmailVerified}
-              selectTextOnFocus={!isEmailVerified}
-            />
-            <VerifyCodeButton
-              onPress={handleVerifyCode}
-              disabled={isEmailVerified}
-              isEmailVerified={isEmailVerified}
-            >
-              <VerifyCodeButtonText>
-                {isEmailVerified ? '인증 완료' : '인증'}
-              </VerifyCodeButtonText>
-            </VerifyCodeButton>
-          </CodeInputContainer>
-        )}
-      </MainContainer>
-      <NextButton
-        isEmailVerified={isEmailVerified}
-        disabled={!isEmailVerified}
-        onPress={() =>
-          router.push({ pathname: '/(stacks)/register', params: { email } })
-        }
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback
+        style={{ flex: 1 }}
+        onPress={Keyboard.dismiss}
+        accessible={false}
       >
-        <BasicNextButtonText>다음</BasicNextButtonText>
-      </NextButton>
-    </BasicContainer>
+        <BasicContainer>
+          <AuthHeader title="회원가입" />
+          <MainContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>이메일</AuthInputLabel>
+              <EmailInput
+                placeholder="이메일을 입력해주세요."
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="emailAddress"
+                value={email ?? undefined}
+                onChangeText={(text: string) => {
+                  setEmail(text);
+                  setIsEmailVerified(false);
+                  setIsCodeSent(false);
+                  setCode(null);
+                }}
+                editable={!isCodeSent}
+                selectTextOnFocus={!isCodeSent}
+                isCodeSent={isCodeSent}
+              />
+              <GetCodeButton
+                onPress={handleGetCode}
+                disabled={isEmailVerified}
+                isEmailVerified={isEmailVerified}
+              >
+                <GetCodeButtonText>
+                  {!isCodeSent ? '인증번호 요청' : '인증번호 재요청'}
+                </GetCodeButtonText>
+              </GetCodeButton>
+            </AuthInputContainer>
+            {isCodeSent && (
+              <CodeInputContainer>
+                <CodeInput
+                  placeholder="인증번호를 입력해주세요."
+                  placeholderTextColor={colors.lightGray}
+                  selectionColor={colors.white}
+                  keyboardType="numeric"
+                  value={code ?? undefined}
+                  onChangeText={(text: string) => setCode(text)}
+                  editable={!isEmailVerified}
+                  selectTextOnFocus={!isEmailVerified}
+                />
+                <VerifyCodeButton
+                  onPress={handleVerifyCode}
+                  disabled={isEmailVerified}
+                  isEmailVerified={isEmailVerified}
+                >
+                  <VerifyCodeButtonText>
+                    {isEmailVerified ? '인증 완료' : '인증'}
+                  </VerifyCodeButtonText>
+                </VerifyCodeButton>
+              </CodeInputContainer>
+            )}
+          </MainContainer>
+          <NextButton
+            isEmailVerified={isEmailVerified}
+            disabled={!isEmailVerified}
+            onPress={() =>
+              router.push({ pathname: '/(stacks)/register', params: { email } })
+            }
+          >
+            <BasicNextButtonText>다음</BasicNextButtonText>
+          </NextButton>
+        </BasicContainer>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 export default function WriteDreamModal({ onClose }: { onClose: () => void }) {
   return (
     <Modal>
-      <ModalText>오늘 꾼 꿈,{'\n'}잊기 전에 적어보세요 🌙</ModalText>
+      <ModalText>어젯밤 꾼 꿈,{'\n'}잊기 전에 적어보세요 🌙</ModalText>
       <ModalButton>
         <ModalButtonText>오늘의 꿈 기록하기</ModalButtonText>
       </ModalButton>

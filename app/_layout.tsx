@@ -1,24 +1,74 @@
-import { Slot, SplashScreen } from 'expo-router';
+import {
+  getRefreshTokenFromSecureStore,
+  setAccessTokenToMemory,
+} from '@/utils/authToken';
+import { colors } from '@/utils/colors';
+import axios from 'axios';
+import { useFonts } from 'expo-font';
+import { Slot, SplashScreen, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-import { useFonts } from 'expo-font';
-import { colors } from '@/utils/colors';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const router = useRouter();
+
   const [isFontLoaded, error] = useFonts({
-    NotoSansKR_Medium: require('@/assets/fonts/NotoSansKR-Medium.ttf'),
-    NotoSansKR_Bold: require('@/assets/fonts/NotoSansKR-Bold.ttf'),
+    NotoSansKR_Medium: require('../assets/fonts/NotoSansKR-Medium.ttf'),
+    NotoSansKR_Bold: require('../assets/fonts/NotoSansKR-Bold.ttf'),
   });
 
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
-    if (isFontLoaded || error) {
+    const checkLoginStatus = async () => {
+      try {
+        const refreshToken = await getRefreshTokenFromSecureStore();
+        if (refreshToken) {
+          const verifyTokenUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/verifyRefreshToken`;
+          const response = await axios.post(verifyTokenUrl, { refreshToken });
+          if (response.status === 200) {
+            const refreshUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/refresh`;
+            const refreshResponse = await axios.post(refreshUrl, {
+              refreshToken,
+            });
+            if (refreshResponse.status === 200) {
+              setAccessTokenToMemory(refreshResponse.data.accessToken);
+              setIsLoggedIn(true);
+            }
+          } else {
+            setIsLoggedIn(false);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+      } finally {
+        setIsAuthChecked(true);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  useEffect(() => {
+    if ((isFontLoaded || error) && isAuthChecked) {
       SplashScreen.hideAsync();
     }
-  }, [isFontLoaded, error]);
-  if (!isFontLoaded && !error) {
+  }, [isFontLoaded, error, isAuthChecked]);
+
+  useEffect(() => {
+    if (isAuthChecked) {
+      if (isLoggedIn) {
+        router.replace('/(tabs)/home');
+      } else {
+        router.replace('/');
+      }
+    }
+  }, [isAuthChecked, isLoggedIn, router]);
+
+  if ((!isFontLoaded && !error) || !isAuthChecked) {
     return null;
   }
 

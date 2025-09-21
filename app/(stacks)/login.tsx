@@ -1,4 +1,5 @@
 import { AuthHeader } from '@/components/authHeader';
+import { saveTokens } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import {
   AuthInput,
@@ -9,10 +10,18 @@ import {
   BasicNextButtonText,
 } from '@/utils/utilComponents';
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import styled from 'styled-components/native';
 
 export default function Login() {
+  const router = useRouter();
+
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
@@ -31,7 +40,8 @@ export default function Login() {
       });
       if (response.status === 200) {
         alert('로그인에 성공했습니다.');
-        // 토큰 저장, 홈 페이지로 이동 등 로그인 성공 처리
+        await saveTokens(response.data.accessToken, response.data.refreshToken);
+        router.push({ pathname: '/(tabs)/home' });
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -40,31 +50,39 @@ export default function Login() {
   };
 
   return (
-    <BasicContainer>
-      <AuthHeader title="로그인" />
-      <MainCcontainer>
-        <AuthInputContainer>
-          <AuthInputLabel>이메일</AuthInputLabel>
-          <LoginInput
-            placeholder="이메일을 입력해주세요."
-            value={email}
-            onChangeText={setEmail}
-          />
-        </AuthInputContainer>
-        <AuthInputContainer>
-          <AuthInputLabel>비밀번호</AuthInputLabel>
-          <LoginInput
-            placeholder="비밀번호를 입력해주세요."
-            secureTextEntry={true}
-            value={password}
-            onChangeText={setPassword}
-          />
-        </AuthInputContainer>
-      </MainCcontainer>
-      <NextButton onPress={handleLogin}>
-        <BasicNextButtonText>로그인</BasicNextButtonText>
-      </NextButton>
-    </BasicContainer>
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback
+        style={{ flex: 1 }}
+        onPress={Keyboard.dismiss}
+        accessible={false}
+      >
+        <BasicContainer>
+          <AuthHeader title="로그인" />
+          <MainCcontainer>
+            <AuthInputContainer>
+              <AuthInputLabel>이메일</AuthInputLabel>
+              <LoginInput
+                placeholder="이메일을 입력해주세요."
+                value={email}
+                onChangeText={setEmail}
+              />
+            </AuthInputContainer>
+            <AuthInputContainer>
+              <AuthInputLabel>비밀번호</AuthInputLabel>
+              <LoginInput
+                placeholder="비밀번호를 입력해주세요."
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />
+            </AuthInputContainer>
+          </MainCcontainer>
+          <NextButton onPress={handleLogin}>
+            <BasicNextButtonText>로그인</BasicNextButtonText>
+          </NextButton>
+        </BasicContainer>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 

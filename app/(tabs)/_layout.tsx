@@ -1,3 +1,4 @@
+import { colors } from '@/utils/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
@@ -7,7 +8,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#000',
+          backgroundColor: colors.backgroundPurple,
         },
       }}
     >
@@ -20,7 +21,7 @@ export default function TabLayout() {
             <Ionicons
               name="home"
               size={24}
-              color={focused ? '#7965c1' : '#909090'}
+              color={focused ? colors.lightPurple : colors.gray}
             />
           ),
         }}
@@ -34,7 +35,7 @@ export default function TabLayout() {
             <Ionicons
               name="cloud"
               size={24}
-              color={focused ? '#7965c1' : '#909090'}
+              color={focused ? colors.lightPurple : colors.gray}
             />
           ),
         }}
@@ -48,7 +49,7 @@ export default function TabLayout() {
             <Ionicons
               name="bar-chart"
               size={24}
-              color={focused ? '#7965c1' : '#909090'}
+              color={focused ? colors.lightPurple : colors.gray}
             />
           ),
         }}
@@ -62,7 +63,7 @@ export default function TabLayout() {
             <Ionicons
               name="moon"
               size={24}
-              color={focused ? '#7965c1' : '#909090'}
+              color={focused ? colors.lightPurple : colors.gray}
             />
           ),
         }}
@@ -76,7 +77,7 @@ export default function TabLayout() {
             <Ionicons
               name="settings"
               size={24}
-              color={focused ? '#7965c1' : '#909090'}
+              color={focused ? colors.lightPurple : colors.gray}
             />
           ),
         }}
