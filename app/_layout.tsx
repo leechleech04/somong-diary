@@ -15,6 +15,13 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const deleteTokensFunc = async () => {
+  //     await deleteTokens();
+  //   };
+  //   deleteTokensFunc();
+  // }, []);
+
   const [isFontLoaded, error] = useFonts({
     NotoSansKR_Medium: require('../assets/fonts/NotoSansKR-Medium.ttf'),
     NotoSansKR_Bold: require('../assets/fonts/NotoSansKR-Bold.ttf'),

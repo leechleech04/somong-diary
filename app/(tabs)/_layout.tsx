@@ -27,7 +27,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="diary/index"
+        name="diary"
         options={{
           title: 'diary',
           tabBarLabel: () => null,

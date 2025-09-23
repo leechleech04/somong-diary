@@ -1,12 +1,20 @@
+import { BoldText } from '@/utils/utilComponents';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
 export default function WriteDreamModal({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+
   return (
     <Modal>
       <ModalText>어젯밤 꾼 꿈,{'\n'}잊기 전에 적어보세요 🌙</ModalText>
-      <ModalButton>
+      <ModalButton
+        onPress={() => {
+          router.push('/(tabs)/diary/new');
+        }}
+      >
         <ModalButtonText>오늘의 꿈 기록하기</ModalButtonText>
       </ModalButton>
       <CloseModalButton
@@ -28,10 +36,10 @@ const Modal = styled(LinearGradient).attrs({
   margin-bottom: 16px;
 `;
 
-const ModalText = styled.Text`
+const ModalText = styled(BoldText)`
   color: #fff;
   font-size: 24px;
-  font-weight: bold;
+  line-height: 28px;
 `;
 
 const ModalButton = styled.Pressable`
@@ -43,10 +51,10 @@ const ModalButton = styled.Pressable`
   padding: 12px 20px;
 `;
 
-const ModalButtonText = styled.Text`
+const ModalButtonText = styled(BoldText)`
   color: #000;
   font-size: 20px;
-  font-weight: bold;
+  line-height: 22px;
 `;
 
 const CloseModalButton = styled.Pressable`

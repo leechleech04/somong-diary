@@ -29,9 +29,8 @@ export const AuthInput = styled.TextInput`
   padding: 16px;
   border-radius: 8px;
   color: ${colors.black};
-  margin-top: 16px;
+  margin: 16px 0 0 0;
   font-size: 16px;
-  line-height: 18px;
 `;
 
 export const BasicNextButton = styled.Pressable`

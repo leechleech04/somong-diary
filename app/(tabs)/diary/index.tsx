@@ -1,9 +1,39 @@
-import { Text, View } from 'react-native';
+import { colors } from '@/utils/colors';
+import { BasicContainer } from '@/utils/utilComponents';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import styled from 'styled-components/native';
 
 export default function List() {
+  const router = useRouter();
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>리스트 화면이에요!</Text>
-    </View>
+    <BasicContainer>
+      <WriteDreamButton
+        onPress={() => {
+          router.push('/(tabs)/diary/new');
+        }}
+      >
+        <WriteDreamIcon />
+      </WriteDreamButton>
+    </BasicContainer>
   );
 }
+
+const WriteDreamButton = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 32px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background-color: ${colors.lightPurple};
+`;
+
+const WriteDreamIcon = styled(Ionicons).attrs({
+  name: 'pencil',
+  size: 32,
+  color: colors.white,
+})``;

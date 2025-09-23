@@ -1,3 +1,4 @@
+import { BoldText } from '@/utils/utilComponents';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import styled from 'styled-components/native';
@@ -32,10 +33,10 @@ const Modal = styled(LinearGradient).attrs({
   margin-bottom: 16px;
 `;
 
-const ModalText = styled.Text`
+const ModalText = styled(BoldText)`
   color: #fff;
   font-size: 24px;
-  font-weight: bold;
+  line-height: 28px;
 `;
 
 const ModalButton = styled.Pressable`
@@ -47,10 +48,10 @@ const ModalButton = styled.Pressable`
   padding: 12px 20px;
 `;
 
-const ModalButtonText = styled.Text`
+const ModalButtonText = styled(BoldText)`
   color: #000;
   font-size: 20px;
-  font-weight: bold;
+  line-height: 22px;
 `;
 
 const CloseModalButton = styled.Pressable`
