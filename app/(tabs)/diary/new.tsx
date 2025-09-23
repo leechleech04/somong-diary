@@ -1,11 +1,17 @@
+import Header from '@/components/Header';
+import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
+import axios from 'axios';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import styled from 'styled-components/native';
 
 const New = () => {
+  const router = useRouter();
+
   const [title, setTitle] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);
   const [emotion, setEmotion] = useState<string | null>(null);
@@ -13,9 +19,45 @@ const New = () => {
   const [date, setDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const writeNewDream = async () => {
+    if (!title || !content) {
+      alert('제목과 내용을 입력해 주세요');
+      return;
+    }
+
+    const currentDate = date || new Date();
+
+    const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/write`;
+
+    try {
+      await axios.post(
+        apiUrl,
+        {
+          title,
+          content,
+          emotion: emotion || null,
+          intensity: emotion ? intensity : null,
+          date: currentDate.toISOString().split('T')[0],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
+          },
+        }
+      );
+
+      alert('꿈 일기가 저장되었습니다.');
+      router.replace('/(tabs)/diary');
+    } catch (error) {
+      console.error('Error writing new dream:', error);
+      alert('꿈 일기 작성에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   return (
     <BasicContainer>
       <ScrollView>
+        <Header title="새 일기" />
         <TitleInput
           placeholder="꿈의 제목을 입력해 주세요"
           placeholderTextColor={colors.lightGray}
@@ -77,7 +119,7 @@ const New = () => {
             />
           )}
         </DateContainer>
-        <SaveButton>
+        <SaveButton onPress={writeNewDream}>
           <SaveButtonText>저장</SaveButtonText>
         </SaveButton>
       </ScrollView>

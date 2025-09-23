@@ -3,8 +3,7 @@ import { BoldText } from '@/utils/utilComponents';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
-
-export const AuthHeader = ({ title }: { title: string }) => {
+const Header = ({ title }: { title: string }) => {
   const router = useRouter();
 
   return (
@@ -35,3 +34,5 @@ const Title = styled(BoldText)`
   color: ${colors.white};
   line-height: 28px;
 `;
+
+export default Header;

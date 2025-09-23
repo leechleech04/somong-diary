@@ -1,4 +1,4 @@
-import { AuthHeader } from '@/components/authHeader';
+import Header from '@/components/Header';
 import { saveTokens } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import {
@@ -57,7 +57,7 @@ export default function Login() {
         accessible={false}
       >
         <BasicContainer>
-          <AuthHeader title="로그인" />
+          <Header title="로그인" />
           <MainCcontainer>
             <AuthInputContainer>
               <AuthInputLabel>이메일</AuthInputLabel>

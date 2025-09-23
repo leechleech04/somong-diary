@@ -1,4 +1,4 @@
-import { AuthHeader } from '@/components/authHeader';
+import Header from '@/components/Header';
 import { colors } from '@/utils/colors';
 import {
   AuthInput,
@@ -79,7 +79,7 @@ const Register = () => {
         accessible={false}
       >
         <BasicContainer>
-          <AuthHeader title="회원가입" />
+          <Header title="회원가입" />
           <MainContainer>
             <AuthInputContainer>
               <AuthInputLabel>이메일</AuthInputLabel>
