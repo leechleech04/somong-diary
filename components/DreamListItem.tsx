@@ -1,12 +1,21 @@
 import { colors } from '@/utils/colors';
 import { BoldText } from '@/utils/utilComponents';
+import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 import { DreamDiary } from './../types/dream';
 
 const DreamListItem = ({ dream }: { dream: DreamDiary }) => {
+  const router = useRouter();
+
   return (
-    <Container>
-      <Title>{dream.title}</Title>
+    <Container
+      onPress={() => {
+        router.push(`/(tabs)/diary/${dream._id}`);
+      }}
+    >
+      <Title numberOfLines={1} ellipsizeMode="tail">
+        {dream.title}
+      </Title>
       <DateText>{new Date(dream.date).toLocaleDateString('ko-KR')}</DateText>
     </Container>
   );
