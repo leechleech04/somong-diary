@@ -1,4 +1,5 @@
 import { DreamDiary } from '@/types/dream';
+import { BoldText, MediumText } from '@/utils/utilComponents';
 import { LinearGradient } from 'expo-linear-gradient';
 import styled from 'styled-components/native';
 
@@ -37,30 +38,32 @@ const Container = styled(LinearGradient).attrs({
   margin-bottom: 16px;
 `;
 
-const TodayDreamText = styled.Text`
+const TodayDreamText = styled(BoldText)`
   color: #fff;
   font-size: 16px;
-  font-weight: bold;
+  line-height: 18px;
   text-align: right;
 `;
 
-const TodayDreamTitle = styled.Text`
+const TodayDreamTitle = styled(BoldText)`
   margin-top: 8px;
   font-size: 24px;
-  font-weight: bold;
+  line-height: 28px;
   color: #fff;
 `;
 
-const TodayDreamContent = styled.Text`
+const TodayDreamContent = styled(MediumText)`
   margin-top: 16px;
   font-size: 16px;
+  line-height: 24px;
   color: #fff;
 `;
 
-const TodayDreamDate = styled.Text`
+const TodayDreamDate = styled(MediumText)`
   color: #000;
   margin-top: 8px;
   font-size: 12px;
+  line-height: 14px;
   text-align: right;
 `;
 
@@ -68,7 +71,7 @@ const TodayDreamEditButton = styled.Pressable`
   margin-top: 8px;
 `;
 
-const TodayDreamEditButtonText = styled.Text`
+const TodayDreamEditButtonText = styled(BoldText)`
   font-size: 16px;
-  font-weight: bold;
+  line-height: 18px;
 `;
