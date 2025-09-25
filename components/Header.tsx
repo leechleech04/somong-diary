@@ -19,7 +19,6 @@ const Header = ({ title }: { title: string }) => {
 const Container = styled.View`
   flex-direction: row;
   justify-content: center;
-
   align-items: center;
   padding: 16px 0;
 `;
@@ -27,12 +26,14 @@ const Container = styled.View`
 const GoBackButton = styled.Pressable`
   position: absolute;
   left: 0;
+  z-index: 1;
 `;
 
 const Title = styled(BoldText)`
   font-size: 28px;
   color: ${colors.white};
   line-height: 28px;
+  padding-left: 40px;
 `;
 
 export default Header;

@@ -8,8 +8,9 @@ export default function StackLayout() {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="new" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="new" />
       <Stack.Screen name="[dreamId]" />
+      <Stack.Screen name="edit" />
     </Stack>
   );
 }

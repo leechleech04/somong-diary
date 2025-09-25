@@ -17,6 +17,9 @@ const DreamListItem = ({ dream }: { dream: DreamDiary }) => {
         {dream.title}
       </Title>
       <DateText>{new Date(dream.date).toLocaleDateString('ko-KR')}</DateText>
+      {dream.hasAnalysis && (
+        <HasAnalysisBadge>✨ AI 해몽 완료</HasAnalysisBadge>
+      )}
     </Container>
   );
 };
@@ -40,6 +43,15 @@ const DateText = styled(BoldText)`
   color: ${colors.lightGray};
   margin-top: 8px;
   text-align: right;
+`;
+
+const HasAnalysisBadge = styled.Text`
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${colors.yellow};
 `;
 
 export default DreamListItem;

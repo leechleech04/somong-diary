@@ -8,6 +8,7 @@ import { BasicContainer } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
+import styled from 'styled-components/native';
 
 export default function Home() {
   const [hasTodayDream, setHasTodayDream] = useState(false);
@@ -44,8 +45,17 @@ export default function Home() {
               setHasDreamAnalysis(true);
               setIsDreamAnalysisModalVisible(false);
             } else {
+              setTodayDreamAnalysis(null);
+              setHasDreamAnalysis(false);
               setIsDreamAnalysisModalVisible(true);
             }
+          } else {
+            setHasTodayDream(false);
+            setIsWriteDreamModalVisible(true);
+            setHasDreamAnalysis(false);
+            setIsDreamAnalysisModalVisible(false);
+            setTodayDreamDiary(null);
+            setTodayDreamAnalysis(null);
           }
         } catch (error) {
           console.error('Error fetching today dream:', error);
@@ -58,24 +68,31 @@ export default function Home() {
 
   return (
     <BasicContainer>
-      {isWriteDreamModalVisible && !hasTodayDream && (
-        <WriteDreamModal
-          onClose={() => {
-            setIsWriteDreamModalVisible(false);
-          }}
-        />
-      )}
-      {hasTodayDream && !hasDreamAnalysis && isDreamAnalysisModalVisible && (
-        <AnalysisDreamModal
-          onClose={() => {
-            setIsDreamAnalysisModalVisible(false);
-          }}
-        />
-      )}
-      {hasTodayDream && <TodayDreamDiary todayDreamDiary={todayDreamDiary} />}
-      {hasDreamAnalysis && (
-        <TodayDreamAnalysis todayDreamAnalysis={todayDreamAnalysis} />
-      )}
+      <ScrollView>
+        {isWriteDreamModalVisible && !hasTodayDream && (
+          <WriteDreamModal
+            onClose={() => {
+              setIsWriteDreamModalVisible(false);
+            }}
+          />
+        )}
+        {hasTodayDream && !hasDreamAnalysis && isDreamAnalysisModalVisible && (
+          <AnalysisDreamModal
+            onClose={() => {
+              setIsDreamAnalysisModalVisible(false);
+            }}
+          />
+        )}
+        {hasTodayDream && <TodayDreamDiary todayDreamDiary={todayDreamDiary} />}
+        {hasDreamAnalysis && (
+          <TodayDreamAnalysis todayDreamAnalysis={todayDreamAnalysis} />
+        )}
+      </ScrollView>
     </BasicContainer>
   );
 }
+
+const ScrollView = styled.ScrollView`
+  width: 100%;
+  flex: 1;
+`;
