@@ -60,6 +60,7 @@ export default function List() {
     useCallback(() => {
       setDreamList([]);
       setCursor(0);
+      setHasMore(true);
       fetchDreamList();
     }, [])
   );

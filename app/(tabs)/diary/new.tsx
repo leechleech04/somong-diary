@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
+import emotions from '@/utils/emotions';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
@@ -75,13 +76,20 @@ const New = () => {
           value={content}
           onChangeText={setContent}
         />
-        <EmotionInput
-          placeholder="감정 입력 ex) 행복, 슬픔..."
-          autonCapitalize="none"
-          value={emotion}
-          onChangeText={setEmotion}
-        />
-        <EmotionContainer>
+        <EmotionButtonContainer>
+          {emotions.map((emo) => (
+            <EmotionButton
+              key={emo.name}
+              isSelected={emotion === emo.name}
+              onPress={() => setEmotion(emotion === emo.name ? null : emo.name)}
+            >
+              <EmotionButtonText isSelected={emotion === emo.name}>
+                {`${emo.name} ${emo.emoji}`}
+              </EmotionButtonText>
+            </EmotionButton>
+          ))}
+        </EmotionButtonContainer>
+        <EmotionLabelContainer>
           <EmotionIntensityLabel>
             감정 강도: {intensity || 0}
           </EmotionIntensityLabel>
@@ -90,7 +98,7 @@ const New = () => {
             onValueChange={setIntensity}
             disabled={!emotion}
           />
-        </EmotionContainer>
+        </EmotionLabelContainer>
         <DateContainer>
           <DatePickButton onPress={() => setShowDatePicker(true)}>
             <DatePickButtonText>날짜 선택</DatePickButtonText>
@@ -152,17 +160,31 @@ const ContentInput = styled.TextInput`
   min-height: 400px;
 `;
 
-const EmotionInput = styled.TextInput`
-  margin-top: 16px;
-  background-color: ${colors.lightPurple};
+const EmotionButtonContainer = styled.View`
   width: 100%;
-  padding: 8px;
-  color: ${colors.white};
-  font-size: 16px;
-  border-radius: 8px;
+  margin-top: 24px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 `;
 
-const EmotionContainer = styled.View`
+const EmotionButton = styled.Pressable<{ isSelected: boolean }>`
+  padding: 12px 16px;
+  border-radius: 20px;
+  background-color: ${(props: { isSelected: boolean }) =>
+    props.isSelected ? colors.lightPurple : colors.white};
+  margin-right: 12px;
+`;
+
+const EmotionButtonText = styled(BoldText)<{ isSelected: boolean }>`
+  color: ${(props: { isSelected: boolean }) =>
+    props.isSelected ? colors.white : colors.black};
+  font-size: 16px;
+  line-height: 18px;
+`;
+
+const EmotionLabelContainer = styled.View`
   width: 100%;
   margin-top: 8px;
   flex-direction: row;
