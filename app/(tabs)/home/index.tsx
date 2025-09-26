@@ -81,6 +81,7 @@ export default function Home() {
             onClose={() => {
               setIsDreamAnalysisModalVisible(false);
             }}
+            dream_id={todayDreamDiary?._id!}
           />
         )}
         {hasTodayDream && <TodayDreamDiary todayDreamDiary={todayDreamDiary} />}

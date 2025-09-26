@@ -1,17 +1,26 @@
 import { BoldText } from '@/utils/utilComponents';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
 export default function AnalysisDreamModal({
   onClose,
+  dream_id,
 }: {
   onClose: () => void;
+  dream_id: string;
 }) {
+  const router = useRouter();
+
   return (
     <Modal>
       <ModalText>당신의 꿈,{'\n'}AI가 분석해드려요 ✨</ModalText>
-      <ModalButton>
+      <ModalButton
+        onPress={() => {
+          router.push(`/(tabs)/diary/${dream_id}`);
+        }}
+      >
         <ModalButtonText>AI 해몽하기</ModalButtonText>
       </ModalButton>
       <CloseModalButton

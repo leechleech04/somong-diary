@@ -22,9 +22,6 @@ export default function TodayDreamDiary({
             weekday: 'long',
           })}
       </TodayDreamDate>
-      <TodayDreamEditButton>
-        <TodayDreamEditButtonText>수정하기</TodayDreamEditButtonText>
-      </TodayDreamEditButton>
     </Container>
   );
 }
