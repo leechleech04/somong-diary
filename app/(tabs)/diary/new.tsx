@@ -26,6 +26,11 @@ const New = () => {
       return;
     }
 
+    if (emotion && !emotions.some((emo) => emo.name === emotion)) {
+      alert('유효한 감정을 선택해 주세요');
+      return;
+    }
+
     const currentDate = date || new Date();
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/write`;
@@ -81,7 +86,10 @@ const New = () => {
             <EmotionButton
               key={emo.name}
               isSelected={emotion === emo.name}
-              onPress={() => setEmotion(emotion === emo.name ? null : emo.name)}
+              onPress={() => {
+                setEmotion(emotion === emo.name ? null : emo.name);
+                setIntensity(null);
+              }}
             >
               <EmotionButtonText isSelected={emotion === emo.name}>
                 {`${emo.name} ${emo.emoji}`}

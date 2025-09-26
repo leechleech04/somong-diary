@@ -32,8 +32,8 @@ const Container = styled.Pressable`
 `;
 
 const Title = styled(BoldText)`
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 24px;
   color: ${colors.white};
 `;
 

@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
+import emotions from '@/utils/emotions';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
@@ -18,7 +19,7 @@ const EditDream = () => {
   const [title, setTitle] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);
   const [emotion, setEmotion] = useState<string | null>(null);
-  const [intensity, setIntensity] = useState(1);
+  const [intensity, setIntensity] = useState<number | null>(null);
   const [date, setDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -71,6 +72,12 @@ const EditDream = () => {
       alert('제목과 내용을 입력해 주세요');
       return;
     }
+
+    if (emotion && !emotions.some((emo) => emo.name === emotion)) {
+      alert('유효한 감정을 선택해 주세요');
+      return;
+    }
+
     const currentDate = date || new Date();
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/edit/${dream_id}`;
@@ -91,7 +98,7 @@ const EditDream = () => {
         }
       );
       alert('꿈 일기가 수정되었습니다.');
-      router.replace('/(tabs)/diary');
+      router.replace(`/(tabs)/diary/${dream_id}`);
     } catch (error) {
       console.error('Error saving edited dream:', error);
       alert('꿈 일기 수정에 실패했습니다. 다시 시도해 주세요.');
@@ -119,12 +126,22 @@ const EditDream = () => {
           value={content}
           onChangeText={setContent}
         />
-        <EmotionInput
-          placeholder="감정 입력 ex) 행복, 슬픔..."
-          autonCapitalize="none"
-          value={emotion}
-          onChangeText={setEmotion}
-        />
+        <EmotionButtonContainer>
+          {emotions.map((emo) => (
+            <EmotionButton
+              key={emo.name}
+              isSelected={emotion === emo.name}
+              onPress={() => {
+                setEmotion(emotion === emo.name ? null : emo.name);
+                setIntensity(null);
+              }}
+            >
+              <EmotionButtonText isSelected={emotion === emo.name}>
+                {`${emo.name} ${emo.emoji}`}
+              </EmotionButtonText>
+            </EmotionButton>
+          ))}
+        </EmotionButtonContainer>
         <EmotionContainer>
           <EmotionIntensityLabel>
             감정 강도: {intensity || 0}
@@ -196,14 +213,28 @@ const ContentInput = styled.TextInput`
   min-height: 400px;
 `;
 
-const EmotionInput = styled.TextInput`
-  margin-top: 16px;
-  background-color: ${colors.lightPurple};
+const EmotionButtonContainer = styled.View`
   width: 100%;
-  padding: 8px;
-  color: ${colors.white};
+  margin-top: 24px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+`;
+
+const EmotionButton = styled.Pressable<{ isSelected: boolean }>`
+  padding: 12px 16px;
+  border-radius: 20px;
+  background-color: ${(props: { isSelected: boolean }) =>
+    props.isSelected ? colors.lightPurple : colors.white};
+  margin-right: 12px;
+`;
+
+const EmotionButtonText = styled(BoldText)<{ isSelected: boolean }>`
+  color: ${(props: { isSelected: boolean }) =>
+    props.isSelected ? colors.white : colors.black};
   font-size: 16px;
-  border-radius: 8px;
+  line-height: 18px;
 `;
 
 const EmotionContainer = styled.View`
