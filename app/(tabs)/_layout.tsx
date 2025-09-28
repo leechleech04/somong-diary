@@ -69,7 +69,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="setting/index"
+        name="setting"
         options={{
           title: 'setting',
           tabBarLabel: () => null,

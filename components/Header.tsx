@@ -32,8 +32,8 @@ const GoBackButton = styled.Pressable`
 const Title = styled(BoldText)`
   font-size: 28px;
   color: ${colors.white};
-  line-height: 28px;
-  padding-left: 40px;
+  line-height: 30px;
+  padding: 0 40px;
 `;
 
 export default Header;

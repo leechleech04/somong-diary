@@ -10,7 +10,7 @@ export default function Training() {
         source={require('@/assets/images/waiting-image.png')}
         resizeMode="contain"
       />
-      <Title>자각몽 훈련 기능은 준비 중이에요. 조금만 기다려 주세요.</Title>
+      <Title>자각몽 훈련 기능을 준비 중이에요. 조금만 기다려 주세요.</Title>
       <SubTitle>꿈 속을 스스로 탐험할 수 있는 훈련을 곧 만나보세요.</SubTitle>
     </BasicContainer>
   );

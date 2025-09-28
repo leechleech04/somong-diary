@@ -42,7 +42,7 @@ const New = () => {
           title,
           content,
           emotion: emotion || null,
-          intensity: emotion ? intensity : null,
+          intensity: emotion ? intensity || 1 : null,
           date: currentDate.toISOString().split('T')[0],
         },
         {
