@@ -1,5 +1,7 @@
+import { BasicContainer } from '@/utils/utilComponents';
+
 const delelteAccount = () => {
-  return null;
+  return <BasicContainer></BasicContainer>;
 };
 
 export default delelteAccount;

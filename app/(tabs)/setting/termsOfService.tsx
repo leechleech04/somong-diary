@@ -1,5 +1,7 @@
+import { BasicContainer } from '@/utils/utilComponents';
+
 const termsOfService = () => {
-  return null;
+  return <BasicContainer></BasicContainer>;
 };
 
 export default termsOfService;

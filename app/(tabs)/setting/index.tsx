@@ -16,47 +16,47 @@ export default function Setting() {
     {
       id: '0',
       title: '이메일/비밀번호 변경',
-      onPress: () => router.push('/(tabs)/setting/changeInfo'),
+      onPress: () => router.push('/setting/changeInfo'),
     },
     {
       id: '1',
       title: '로그아웃',
-      onPress: () => router.push('/(tabs)/setting/logout'),
+      onPress: () => router.push('/setting/logout'),
     },
     {
       id: '2',
       title: '소몽일기 소개',
-      onPress: () => router.push('/(tabs)/setting/aboutApp'),
+      onPress: () => router.push('/setting/aboutApp'),
     },
     {
       id: '3',
       title: '문의하기',
-      onPress: () => router.push('/(tabs)/setting/contactUs'),
+      onPress: () => router.push('/setting/contactUs'),
     },
     {
       id: '4',
       title: '버전 정보',
-      onPress: () => router.push('/(tabs)/setting/versionInfo'),
+      onPress: () => router.push('/setting/versionInfo'),
     },
     {
       id: '5',
       title: '개인정보 처리방침',
-      onPress: () => router.push('/(tabs)/setting/privacyPolicy'),
+      onPress: () => router.push('/setting/privacyPolicy'),
     },
     {
       id: '6',
       title: '서비스 이용약관',
-      onPress: () => router.push('/(tabs)/setting/termsOfService'),
+      onPress: () => router.push('/setting/termsOfService'),
     },
     {
       id: '7',
       title: '오픈소스 라이선스',
-      onPress: () => router.push('/(tabs)/setting/openSourceLicenses'),
+      onPress: () => router.push('/setting/openSourceLicenses'),
     },
     {
       id: '8',
       title: '회원탈퇴',
-      onPress: () => router.push('/(tabs)/setting/deleteAccount'),
+      onPress: () => router.push('/setting/deleteAccount'),
     },
   ];
 

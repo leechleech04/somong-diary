@@ -3,3 +3,6 @@
 타입 변수는 이름에 type이나 interface 붙이기
 api 호출 시 로딩 변수 만들고 ActivityIndicator 추가
 작성, 편집 페이지에서 뒤로가기 누르면 확인 모달창 띄우기
+컴포넌트 앞글자 대문자로 변경
+access token redux에 저장
+textInput이 키보드에 가려지지 않는지 확인, 인풋 바깥 누르면 키보드 내려가는지 확인
