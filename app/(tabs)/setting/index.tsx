@@ -15,8 +15,8 @@ export default function Setting() {
   const settingItems = [
     {
       id: '0',
-      title: '이메일/비밀번호 변경',
-      onPress: () => router.push('/setting/changeInfo'),
+      title: '비밀번호 변경',
+      onPress: () => router.push('/setting/changePassword'),
     },
     {
       id: '1',
