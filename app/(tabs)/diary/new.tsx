@@ -62,8 +62,8 @@ const New = () => {
 
   return (
     <BasicContainer>
+      <Header title="새 일기" />
       <ScrollView>
-        <Header title="새 일기" />
         <TitleInput
           placeholder="꿈의 제목을 입력해 주세요"
           placeholderTextColor={colors.lightGray}

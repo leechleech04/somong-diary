@@ -1,22 +1,46 @@
 import Header from '@/components/Header';
+import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
-import {
-  AuthInput,
-  AuthInputLabel,
-  BasicContainer,
-  BoldText,
-} from '@/utils/utilComponents';
+import { BasicContainer, BoldText } from '@/utils/utilComponents';
+import axios from 'axios';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import styled from 'styled-components/native';
 
 const contactUs = () => {
+  const router = useRouter();
+
   const [contactType, setContactType] = useState<string>('bugReport');
   const [content, setContent] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
 
-  const sendInquiry = () => {
-    // Here you would typically handle sending the inquiry to your backend or email service
-    alert('문의가 전송되었습니다.');
+  const sendInquiry = async () => {
+    if (content.length === 0) {
+      alert('문의 내용을 입력해 주세요.');
+    }
+
+    const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/inquiry/submit`;
+    try {
+      await axios.post(
+        apiUrl,
+        {
+          contactType,
+          content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
+          },
+        }
+      );
+
+      alert('문의가 전송되었습니다.');
+      router.replace('/(tabs)/setting');
+      return;
+    } catch (error) {
+      console.error('Error sending inquiry:', error);
+      alert('문의 전송에 실패했습니다. 다시 시도해 주세요.');
+      return;
+    }
   };
 
   return (
@@ -47,14 +71,6 @@ const contactUs = () => {
           autonCapitalize="none"
           value={content}
           onChangeText={setContent}
-        />
-        <AuthInputLabel style={{ marginTop: '24' }}>
-          회신받을 이메일
-        </AuthInputLabel>
-        <EmailInput
-          placeholder="문의 결과를 회신받을 이메일을 입력해주세요."
-          value={email}
-          onChangeText={setEmail}
         />
         <SendButton onPress={sendInquiry}>
           <SendButtonText>전송</SendButtonText>
@@ -106,10 +122,6 @@ const ContentInput = styled.TextInput`
   border-radius: 8px;
   min-height: 400px;
   margin-top: 24px;
-`;
-
-const EmailInput = styled(AuthInput)`
-  background-color: ${colors.white};
 `;
 
 const SendButton = styled.Pressable`

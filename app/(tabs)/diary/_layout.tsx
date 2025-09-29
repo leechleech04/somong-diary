@@ -9,7 +9,7 @@ export default function Layout() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="new" />
-      <Stack.Screen name="[dreamId]" />
+      <Stack.Screen name="[dream_id]" />
       <Stack.Screen name="edit" />
     </Stack>
   );
