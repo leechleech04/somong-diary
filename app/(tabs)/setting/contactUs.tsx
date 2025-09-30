@@ -20,7 +20,7 @@ const contactUs = () => {
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/inquiry/submit`;
     try {
-      await axios.post(
+      const response = await axios.post(
         apiUrl,
         {
           contactType,
@@ -33,7 +33,7 @@ const contactUs = () => {
         }
       );
 
-      alert('문의가 전송되었습니다.');
+      alert(response.data.message || '문의가 성공적으로 전송되었습니다.');
       router.replace('/(tabs)/setting');
       return;
     } catch (error) {

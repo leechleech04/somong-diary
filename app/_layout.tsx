@@ -36,11 +36,17 @@ export default function RootLayout() {
         const refreshToken = await getRefreshTokenFromSecureStore();
         if (refreshToken) {
           const verifyTokenUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/verifyRefreshToken`;
-          const response = await axios.post(verifyTokenUrl, { refreshToken });
+          const response = await axios.get(verifyTokenUrl, {
+            headers: {
+              'X-Refresh-Token': refreshToken,
+            },
+          });
           if (response.status === 200) {
             const refreshUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/refresh`;
-            const refreshResponse = await axios.post(refreshUrl, {
-              refreshToken,
+            const refreshResponse = await axios.get(refreshUrl, {
+              headers: {
+                'X-Refresh-Token': refreshToken,
+              },
             });
             if (refreshResponse.status === 200) {
               setAccessTokenToMemory(refreshResponse.data.accessToken);

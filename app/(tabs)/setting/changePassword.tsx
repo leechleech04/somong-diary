@@ -49,7 +49,7 @@ const changePassword = () => {
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/changePassword`;
     try {
-      await axios.post(
+      const response = await axios.post(
         apiUrl,
         {
           currentPassword,
@@ -63,7 +63,7 @@ const changePassword = () => {
         }
       );
 
-      alert('비밀번호가 성공적으로 변경되었습니다.');
+      alert(response.data.message || '비밀번호가 성공적으로 변경되었습니다.');
       router.replace('/(tabs)/setting');
     } catch (error) {
       console.error('Error changing password:', error);
