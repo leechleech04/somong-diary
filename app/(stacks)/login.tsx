@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function Login() {
+const Login = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState<string | null>(null);
@@ -84,7 +84,7 @@ export default function Login() {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const MainCcontainer = styled.View`
   flex: 1;
@@ -97,3 +97,5 @@ const LoginInput = styled(AuthInput)`
 const NextButton = styled(BasicNextButton)`
   background-color: ${colors.lightPurple};
 `;
+
+export default Login;

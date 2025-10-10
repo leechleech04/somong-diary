@@ -1,6 +1,6 @@
 import DreamListEmpty from '@/components/DreamListEmpty';
 import DreamListItem from '@/components/DreamListItem';
-import { DreamDiary } from '@/types/dream';
+import { DreamDiaryType } from '@/types/dream';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import { BasicContainer } from '@/utils/utilComponents';
@@ -12,10 +12,10 @@ import { useCallback, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function List() {
+const List = () => {
   const router = useRouter();
 
-  const [dreamList, setDreamList] = useState<DreamDiary[]>([]);
+  const [dreamList, setDreamList] = useState<DreamDiaryType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [cursor, setCursor] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
@@ -90,7 +90,7 @@ export default function List() {
       </WriteDreamButton>
     </BasicContainer>
   );
-}
+};
 
 const WriteDreamButton = styled.Pressable`
   justify-content: center;
@@ -109,3 +109,5 @@ const WriteDreamIcon = styled(Ionicons).attrs({
   size: 32,
   color: colors.white,
 })``;
+
+export default List;

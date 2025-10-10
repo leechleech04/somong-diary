@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-export default function StackLayout() {
+const StackLayout = () => {
   return (
     <Stack
       screenOptions={{
@@ -10,4 +10,6 @@ export default function StackLayout() {
       <Stack.Screen name="index" />
     </Stack>
   );
-}
+};
+
+export default StackLayout;

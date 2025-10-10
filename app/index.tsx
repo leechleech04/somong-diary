@@ -3,7 +3,7 @@ import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
-export default function Index() {
+const Index = () => {
   const router = useRouter();
 
   return (
@@ -30,7 +30,7 @@ export default function Index() {
       </RegisterButton>
     </Container>
   );
-}
+};
 
 const Container = styled(BasicContainer)`
   flex: 1;
@@ -80,3 +80,5 @@ const LoginButton = styled(Button)`
 const RegisterButton = styled(Button)`
   background-color: ${colors.purple};
 `;
+
+export default Index;

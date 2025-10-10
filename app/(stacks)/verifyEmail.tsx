@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function verifyEmail() {
+const VerifyEmail = () => {
   const router = useRouter();
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -145,7 +145,7 @@ export default function verifyEmail() {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const MainContainer = styled.View`
   flex: 1;
@@ -208,3 +208,5 @@ const NextButton = styled(BasicNextButton)<{ isEmailVerified: boolean }>`
   background-color: ${({ isEmailVerified }: { isEmailVerified: boolean }) =>
     isEmailVerified ? colors.lightPurple : colors.gray};
 `;
+
+export default VerifyEmail;

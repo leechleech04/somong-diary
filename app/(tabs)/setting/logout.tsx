@@ -12,7 +12,7 @@ import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
-const logout = () => {
+const Logout = () => {
   const router = useRouter();
 
   const handleLogout = useCallback(async () => {
@@ -77,4 +77,4 @@ const LogoutButtonText = styled(BoldText)`
   line-height: 22px;
 `;
 
-export default logout;
+export default Logout;

@@ -3,7 +3,7 @@ import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import styled from 'styled-components/native';
 
-const versionInfo = () => {
+const VersionInfo = () => {
   return (
     <BasicContainer>
       <Header title="버전 정보" />
@@ -29,4 +29,4 @@ const BoldContentText = styled(BoldText)`
   margin-top: 8px;
 `;
 
-export default versionInfo;
+export default VersionInfo;

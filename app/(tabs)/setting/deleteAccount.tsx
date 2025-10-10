@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
-const delelteAccount = () => {
+const DelelteAccount = () => {
   const router = useRouter();
 
   const handleDeleteAccount = useCallback(async () => {
@@ -97,4 +97,4 @@ const DeleteButtonText = styled(BoldText)`
   line-height: 24px;
 `;
 
-export default delelteAccount;
+export default DelelteAccount;

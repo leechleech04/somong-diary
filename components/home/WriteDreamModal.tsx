@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
-export default function WriteDreamModal({ onClose }: { onClose: () => void }) {
+const WriteDreamModal = ({ onClose }: { onClose: () => void }) => {
   const router = useRouter();
 
   return (
@@ -26,7 +26,7 @@ export default function WriteDreamModal({ onClose }: { onClose: () => void }) {
       </CloseModalButton>
     </Modal>
   );
-}
+};
 
 const Modal = styled(LinearGradient).attrs({
   colors: ['#483aa0', '#7963c1'],
@@ -68,3 +68,5 @@ const CloseModal = styled(Ionicons).attrs({
   size: 24,
   color: '#000',
 })``;
+
+export default WriteDreamModal;

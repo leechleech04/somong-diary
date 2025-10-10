@@ -1,18 +1,18 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import styled from 'styled-components/native';
 
-export default function TodayDreamAnalysis({
+const TodayDreamAnalysis = ({
   todayDreamAnalysis,
 }: {
   todayDreamAnalysis: string | null;
-}) {
+}) => {
   return (
     <Container>
       <TodayAnalysisText>오늘의 꿈 해석</TodayAnalysisText>
       <TodayAnalysisContent>{todayDreamAnalysis}</TodayAnalysisContent>
     </Container>
   );
-}
+};
 
 const Container = styled(LinearGradient).attrs({
   colors: ['#e3d095', '#fff'],
@@ -36,3 +36,5 @@ const TodayAnalysisContent = styled.Text`
   color: #000;
   line-height: 24px;
 `;
+
+export default TodayDreamAnalysis;

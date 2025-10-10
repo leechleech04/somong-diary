@@ -1,4 +1,4 @@
-export interface DreamDiary {
+export interface DreamDiaryType {
   _id: string;
   title: string;
   content: string;
@@ -8,7 +8,7 @@ export interface DreamDiary {
   hasAnalysis: boolean;
 }
 
-export interface DreamAnalysis {
+export interface DreamAnalysisType {
   dreamDiary_id: string;
   content: string;
 }

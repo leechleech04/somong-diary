@@ -3,7 +3,7 @@ import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function Training() {
+const Training = () => {
   return (
     <BasicContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
       <WaitingImage
@@ -14,7 +14,7 @@ export default function Training() {
       <SubTitle>꿈 속을 스스로 탐험할 수 있는 훈련을 곧 만나보세요.</SubTitle>
     </BasicContainer>
   );
-}
+};
 
 const WaitingImage = styled.Image`
   width: 100%;
@@ -36,3 +36,5 @@ const SubTitle = styled(MediumText)`
   color: ${colors.lightGray};
   margin-top: 16px;
 `;
+
+export default Training;

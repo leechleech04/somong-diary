@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
-const contactUs = () => {
+const ContactUs = () => {
   const router = useRouter();
 
   const [contactType, setContactType] = useState<string>('bugReport');
@@ -138,4 +138,4 @@ const SendButtonText = styled(BoldText)`
   line-height: 22px;
 `;
 
-export default contactUs;
+export default ContactUs;

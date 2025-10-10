@@ -3,11 +3,11 @@ import { BoldText, MediumText } from '@/utils/utilComponents';
 import { LinearGradient } from 'expo-linear-gradient';
 import styled from 'styled-components/native';
 
-export default function TodayDreamDiary({
+const TodayDreamDiary = ({
   todayDreamDiary,
 }: {
   todayDreamDiary: DreamDiary | null;
-}) {
+}) => {
   return (
     <Container>
       <TodayDreamText>오늘의 꿈</TodayDreamText>
@@ -24,7 +24,7 @@ export default function TodayDreamDiary({
       </TodayDreamDate>
     </Container>
   );
-}
+};
 
 const Container = styled(LinearGradient).attrs({
   colors: ['#483aa0', '#7963c1'],
@@ -64,11 +64,4 @@ const TodayDreamDate = styled(MediumText)`
   text-align: right;
 `;
 
-const TodayDreamEditButton = styled.Pressable`
-  margin-top: 8px;
-`;
-
-const TodayDreamEditButtonText = styled(BoldText)`
-  font-size: 16px;
-  line-height: 18px;
-`;
+export default TodayDreamDiary;

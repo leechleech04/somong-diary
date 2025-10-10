@@ -14,7 +14,7 @@ import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
-const changePassword = () => {
+const ChangePassword = () => {
   const router = useRouter();
 
   const [currentPassword, setCurrentPassword] = useState<string>('');
@@ -143,4 +143,4 @@ const ChangeButtonText = styled(BoldText)`
   line-height: 22px;
 `;
 
-export default changePassword;
+export default ChangePassword;

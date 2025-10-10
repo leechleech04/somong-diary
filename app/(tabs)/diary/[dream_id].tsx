@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import { DreamDiary } from '@/types/dream';
+import { DreamDiaryType } from '@/types/dream';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import {
@@ -22,7 +22,7 @@ const DreamDetail = () => {
   const local = useLocalSearchParams();
   const dreamDiary_id = local.dream_id;
 
-  const [dreamDiary, setDreamDiary] = useState<DreamDiary | null>(null);
+  const [dreamDiary, setDreamDiary] = useState<DreamDiaryType | null>(null);
   const [dreamAnalysis, setDreamAnalysis] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);

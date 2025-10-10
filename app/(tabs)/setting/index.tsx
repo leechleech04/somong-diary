@@ -9,7 +9,7 @@ interface SettingItem {
   onPress: () => void;
 }
 
-export default function Setting() {
+const Setting = () => {
   const router = useRouter();
 
   const settingItems = [
@@ -78,7 +78,7 @@ export default function Setting() {
       />
     </BasicContainer>
   );
-}
+};
 
 const SettingHeader = styled(BoldText)`
   font-size: 28px;
@@ -108,3 +108,5 @@ const ItemText = styled(BoldText)<{ isDeleteAccount?: boolean }>`
   color: ${({ isDeleteAccount }: { isDeleteAccount: boolean }) =>
     isDeleteAccount ? colors.red : colors.white};
 `;
+
+export default Setting;

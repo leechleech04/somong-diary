@@ -3,7 +3,7 @@ import { colors } from '@/utils/colors';
 import { BasicContainer } from '@/utils/utilComponents';
 import styled from 'styled-components/native';
 
-const aboutApp = () => {
+const AboutApp = () => {
   return (
     <BasicContainer>
       <Header title="소몽일기" />
@@ -77,4 +77,4 @@ const ComingSoon = styled.Text`
   margin: 20px 0;
 `;
 
-export default aboutApp;
+export default AboutApp;

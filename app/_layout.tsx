@@ -12,7 +12,7 @@ import styled from 'styled-components/native';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const RootLayout = () => {
   const router = useRouter();
 
   // useEffect(() => {
@@ -90,9 +90,11 @@ export default function RootLayout() {
       <Slot />
     </Container>
   );
-}
+};
 
 const Container = styled(SafeAreaView)`
   flex: 1;
   background-color: ${colors.backgroundPurple};
 `;
+
+export default RootLayout;

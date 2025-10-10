@@ -2,7 +2,7 @@ import AnalysisDreamModal from '@/components/home/AnlysisDreamModal';
 import TodayDreamAnalysis from '@/components/home/TodayDreamAnalysis';
 import TodayDreamDiary from '@/components/home/TodayDreamDiary';
 import WriteDreamModal from '@/components/home/WriteDreamModal';
-import { DreamDiary } from '@/types/dream';
+import { DreamDiaryType } from '@/types/dream';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import { BasicContainer } from '@/utils/utilComponents';
 import axios from 'axios';
@@ -10,9 +10,9 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
-export default function Home() {
+const Home = () => {
   const [hasTodayDream, setHasTodayDream] = useState(false);
-  const [todayDreamDiary, setTodayDreamDiary] = useState<DreamDiary | null>(
+  const [todayDreamDiary, setTodayDreamDiary] = useState<DreamDiaryType | null>(
     null
   );
 
@@ -91,9 +91,11 @@ export default function Home() {
       </ScrollView>
     </BasicContainer>
   );
-}
+};
 
 const ScrollView = styled.ScrollView`
   width: 100%;
   flex: 1;
 `;
+
+export default Home;

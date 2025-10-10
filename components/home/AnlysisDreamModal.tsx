@@ -4,13 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import styled from 'styled-components/native';
 
-export default function AnalysisDreamModal({
+const AnalysisDreamModal = ({
   onClose,
   dream_id,
 }: {
   onClose: () => void;
   dream_id: string;
-}) {
+}) => {
   const router = useRouter();
 
   return (
@@ -32,7 +32,7 @@ export default function AnalysisDreamModal({
       </CloseModalButton>
     </Modal>
   );
-}
+};
 
 const Modal = styled(LinearGradient).attrs({
   colors: ['#483aa0', '#7963c1'],
@@ -74,3 +74,5 @@ const CloseModal = styled(Ionicons).attrs({
   size: 24,
   color: '#000',
 })``;
+
+export default AnalysisDreamModal;

@@ -3,7 +3,7 @@ import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import styled from 'styled-components/native';
 
-const openSourceLicenses = () => {
+const OpenSourceLicenses = () => {
   return (
     <BasicContainer>
       <ScrollView>
@@ -73,4 +73,4 @@ const ItemText = styled(MediumText)`
   margin-bottom: 10px;
 `;
 
-export default openSourceLicenses;
+export default OpenSourceLicenses;
