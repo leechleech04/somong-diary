@@ -11,7 +11,7 @@ import {
 } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
 const changePassword = () => {
@@ -21,7 +21,7 @@ const changePassword = () => {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = useCallback(async () => {
     if (
       currentPassword.length === 0 ||
       newPassword.length === 0 ||
@@ -70,7 +70,7 @@ const changePassword = () => {
       alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
       return;
     }
-  };
+  }, [currentPassword, newPassword, confirmNewPassword, router]);
 
   return (
     <BasicContainer>

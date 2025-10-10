@@ -11,7 +11,7 @@ import {
 } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -27,7 +27,7 @@ export default function verifyEmail() {
   const [email, setEmail] = useState<string | null>(null);
   const [code, setCode] = useState<string | null>(null);
 
-  const handleGetCode = async () => {
+  const handleGetCode = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/emailAuth`;
 
     if (!email) {
@@ -47,9 +47,9 @@ export default function verifyEmail() {
       console.error('Error during email authentication:', error);
       alert('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
     }
-  };
+  }, [email]);
 
-  const handleVerifyCode = async () => {
+  const handleVerifyCode = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/verifyCode`;
 
     if (!email || !code) {
@@ -67,7 +67,7 @@ export default function verifyEmail() {
       console.error('Error during code verification:', error);
       alert('인증번호 확인에 실패했습니다. 다시 시도해주세요.');
     }
-  };
+  }, [email, code]);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>

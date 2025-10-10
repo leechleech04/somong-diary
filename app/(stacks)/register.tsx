@@ -12,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -35,7 +35,7 @@ const Register = () => {
 
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const handleRegister = async () => {
+  const handleRegister = useCallback(async () => {
     if (!username || !email || !password || !confirmPassword) {
       alert('모든 필드를 입력해주세요.');
       return;
@@ -79,7 +79,15 @@ const Register = () => {
       console.error('Error during registration:', error);
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
-  };
+  }, [
+    email,
+    username,
+    password,
+    confirmPassword,
+    agreeTerms,
+    agreePrivacy,
+    agreeAge,
+  ]);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>

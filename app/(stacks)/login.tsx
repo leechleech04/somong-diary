@@ -11,7 +11,7 @@ import {
 } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -25,7 +25,7 @@ export default function Login() {
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     if (!email || !password) {
       alert('이메일과 비밀번호를 모두 입력해주세요.');
       return;
@@ -47,7 +47,7 @@ export default function Login() {
       console.error('Error during login:', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     }
-  };
+  }, [email, password, router]);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>

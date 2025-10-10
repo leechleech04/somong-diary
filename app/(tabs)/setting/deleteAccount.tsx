@@ -4,13 +4,14 @@ import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
+import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
 const delelteAccount = () => {
   const router = useRouter();
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/deleteUser`;
     try {
       const response = await axios.get(apiUrl, {
@@ -30,7 +31,7 @@ const delelteAccount = () => {
       Alert.alert('회원 탈퇴 중 오류가 발생했습니다. 다시 시도해 주세요.');
       return;
     }
-  };
+  }, [router]);
 
   return (
     <BasicContainer>

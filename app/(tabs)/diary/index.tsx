@@ -20,7 +20,7 @@ export default function List() {
   const [cursor, setCursor] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchDreamList = async () => {
+  const fetchDreamList = useCallback(async () => {
     if (isLoading || !hasMore) return;
 
     setIsLoading(true);
@@ -54,7 +54,7 @@ export default function List() {
       console.error('Error fetching dream list:', error);
       alert('꿈 일기 목록을 불러오는데 실패했습니다. 다시 시도해 주세요.');
     }
-  };
+  }, [cursor, hasMore, isLoading]);
 
   useFocusEffect(
     useCallback(() => {

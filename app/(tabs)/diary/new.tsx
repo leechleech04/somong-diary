@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
 const New = () => {
@@ -20,7 +20,7 @@ const New = () => {
   const [date, setDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const writeNewDream = async () => {
+  const writeNewDream = useCallback(async () => {
     if (!title || !content) {
       alert('제목과 내용을 입력해 주세요');
       return;
@@ -58,7 +58,7 @@ const New = () => {
       console.error('Error writing new dream:', error);
       alert('꿈 일기 작성에 실패했습니다. 다시 시도해 주세요.');
     }
-  };
+  }, [title, content, emotion, intensity, date, router]);
 
   return (
     <BasicContainer>

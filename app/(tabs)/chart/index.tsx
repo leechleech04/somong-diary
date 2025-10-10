@@ -1,6 +1,6 @@
 import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText } from '@/utils/utilComponents';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BarChart, PieChart } from 'react-native-chart-kit';
 import styled from 'styled-components/native';
 
@@ -33,73 +33,81 @@ const Chart = () => {
     datasets: { data: number[] }[];
   }
 
-  const [emotionData, setEmotionData] = useState<emotionDataType[]>([]);
   const [pieChartData, setPieChartData] = useState<pieChartDataType[]>([]);
   const [barChartData, setBarChartData] = useState<barChartDataType>({
     labels: [],
     datasets: [{ data: [] }],
   });
 
-  const parseEmotionDataToPieChartData = (data: emotionDataType[]) => {
-    const emotionCountMap: { [key: string]: number } = {};
+  const parseEmotionDataToPieChartData = useCallback(
+    (data: emotionDataType[]) => {
+      const emotionCountMap: { [key: string]: number } = {};
 
-    data.forEach((entry) => {
-      if (emotionCountMap[entry.emotion]) {
-        emotionCountMap[entry.emotion] += 1;
-      } else {
-        emotionCountMap[entry.emotion] = 1;
-      }
-    });
+      data.forEach((entry) => {
+        if (emotionCountMap[entry.emotion]) {
+          emotionCountMap[entry.emotion] += 1;
+        } else {
+          emotionCountMap[entry.emotion] = 1;
+        }
+      });
 
-    const pieData: pieChartDataType[] = Object.keys(emotionCountMap).map(
-      (emotion, index) => ({
-        name: `${emotion} ${
-          emotions.find((e) => e.name === emotion)?.emoji || ''
-        }`,
-        population: emotionCountMap[emotion],
-        color: emotions.find((e) => e.name === emotion)?.color || colors.black,
-        legendFontColor: colors.white,
-        legendFontSize: 16,
-      })
-    );
+      const pieData: pieChartDataType[] = Object.keys(emotionCountMap).map(
+        (emotion, index) => ({
+          name: `${emotion} ${
+            emotions.find((e) => e.name === emotion)?.emoji || ''
+          }`,
+          population: emotionCountMap[emotion],
+          color:
+            emotions.find((e) => e.name === emotion)?.color || colors.black,
+          legendFontColor: colors.white,
+          legendFontSize: 16,
+        })
+      );
 
-    pieData.sort((a, b) => b.population - a.population);
+      pieData.sort((a, b) => b.population - a.population);
 
-    setPieChartData(pieData);
-  };
+      setPieChartData(pieData);
+    },
+    []
+  );
 
-  const parseEmotionDataToBarChartData = (data: emotionDataType[]) => {
-    const emotionIntensityMap: { [key: string]: number[] } = {};
+  const parseEmotionDataToBarChartData = useCallback(
+    (data: emotionDataType[]) => {
+      const emotionIntensityMap: { [key: string]: number[] } = {};
 
-    data.forEach((entry) => {
-      if (emotionIntensityMap[entry.emotion]) {
-        emotionIntensityMap[entry.emotion].push(entry.intensity);
-      } else {
-        emotionIntensityMap[entry.emotion] = [entry.intensity];
-      }
-    });
+      data.forEach((entry) => {
+        if (emotionIntensityMap[entry.emotion]) {
+          emotionIntensityMap[entry.emotion].push(entry.intensity);
+        } else {
+          emotionIntensityMap[entry.emotion] = [entry.intensity];
+        }
+      });
 
-    const labels = Object.keys(emotionIntensityMap);
-    const intensities = labels.map((emotion) => {
-      const intensities = emotionIntensityMap[emotion];
-      const totalIntensity = intensities.reduce((sum, val) => sum + val, 0);
-      return totalIntensity;
-    });
+      const labels = Object.keys(emotionIntensityMap);
+      const intensities = labels.map((emotion) => {
+        const intensities = emotionIntensityMap[emotion];
+        const totalIntensity = intensities.reduce((sum, val) => sum + val, 0);
+        return totalIntensity;
+      });
 
-    const barData: barChartDataType = {
-      labels: labels.map(
-        (emotion) =>
-          `${emotion} ${emotions.find((e) => e.name === emotion)?.emoji || ''}`
-      ),
-      datasets: [
-        {
-          data: intensities,
-        },
-      ],
-    };
+      const barData: barChartDataType = {
+        labels: labels.map(
+          (emotion) =>
+            `${emotion} ${
+              emotions.find((e) => e.name === emotion)?.emoji || ''
+            }`
+        ),
+        datasets: [
+          {
+            data: intensities,
+          },
+        ],
+      };
 
-    setBarChartData(barData);
-  };
+      setBarChartData(barData);
+    },
+    []
+  );
 
   useEffect(() => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}`;
@@ -112,7 +120,6 @@ const Chart = () => {
         });
 
         if (response.status === 200 && response.data) {
-          setEmotionData(response.data.emotionList);
           parseEmotionDataToPieChartData(response.data.emotionList);
           parseEmotionDataToBarChartData(response.data.emotionList);
         }
@@ -130,7 +137,6 @@ const Chart = () => {
         });
 
         if (response.status === 200 && response.data) {
-          setEmotionData(response.data.emotionList);
           parseEmotionDataToPieChartData(response.data.emotionList);
           parseEmotionDataToBarChartData(response.data.emotionList);
         }
@@ -148,7 +154,6 @@ const Chart = () => {
         });
 
         if (response.status === 200 && response.data) {
-          setEmotionData(response.data.emotionList);
           parseEmotionDataToPieChartData(response.data.emotionList);
           parseEmotionDataToBarChartData(response.data.emotionList);
         }
@@ -166,7 +171,6 @@ const Chart = () => {
         });
 
         if (response.status === 200 && response.data) {
-          setEmotionData(response.data.emotionList);
           parseEmotionDataToPieChartData(response.data.emotionList);
           parseEmotionDataToBarChartData(response.data.emotionList);
         }

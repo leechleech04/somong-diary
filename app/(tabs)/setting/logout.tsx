@@ -8,13 +8,14 @@ import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
+import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
 const logout = () => {
   const router = useRouter();
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/logout`;
     try {
       const response = await axios.get(apiUrl, {
@@ -32,7 +33,7 @@ const logout = () => {
     } catch (error) {
       console.error('Error during logout:', error);
     }
-  };
+  }, [router]);
 
   return (
     <BasicContainer>

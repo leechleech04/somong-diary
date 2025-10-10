@@ -4,7 +4,7 @@ import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 
 const contactUs = () => {
@@ -13,7 +13,7 @@ const contactUs = () => {
   const [contactType, setContactType] = useState<string>('bugReport');
   const [content, setContent] = useState<string>('');
 
-  const sendInquiry = async () => {
+  const sendInquiry = useCallback(async () => {
     if (content.length === 0) {
       alert('문의 내용을 입력해 주세요.');
     }
@@ -41,7 +41,7 @@ const contactUs = () => {
       alert('문의 전송에 실패했습니다. 다시 시도해 주세요.');
       return;
     }
-  };
+  }, [contactType, content]);
 
   return (
     <BasicContainer>

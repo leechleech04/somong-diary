@@ -12,7 +12,7 @@ import {
 import Slider from '@react-native-community/slider';
 import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -90,7 +90,7 @@ const DreamDetail = () => {
     fetchDreamAnalysis();
   }, [dreamDiary, dreamDiary_id]);
 
-  const createDreamAnalysis = async () => {
+  const createDreamAnalysis = useCallback(async () => {
     if (!dreamDiary_id) return;
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/analysis/new/${dreamDiary_id}`;
@@ -112,9 +112,9 @@ const DreamDetail = () => {
       console.error('Error creating dream analysis:', error);
       alert('꿈 해몽 생성에 실패했습니다. 다시 시도해 주세요.');
     }
-  };
+  }, [dreamDiary_id]);
 
-  const deleteDreamDiary = async () => {
+  const deleteDreamDiary = useCallback(async () => {
     if (!dreamDiary_id) return;
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/delete/${dreamDiary_id}`;
@@ -130,7 +130,7 @@ const DreamDetail = () => {
       console.error('Error deleting dream diary:', error);
       alert('꿈 일기 삭제에 실패했습니다. 다시 시도해 주세요.');
     }
-  };
+  }, [dreamDiary_id, router]);
 
   return (
     <BasicContainer>

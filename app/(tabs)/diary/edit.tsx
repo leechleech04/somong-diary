@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
 import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 const EditDream = () => {
@@ -61,7 +61,7 @@ const EditDream = () => {
     fetchDreamDiary();
   }, [dream_id]);
 
-  const saveEditedDream = async () => {
+  const saveEditedDream = useCallback(async () => {
     if (!dream_id) {
       alert('잘못된 접근입니다.');
       router.back();
@@ -103,7 +103,7 @@ const EditDream = () => {
       console.error('Error saving edited dream:', error);
       alert('꿈 일기 수정에 실패했습니다. 다시 시도해 주세요.');
     }
-  };
+  }, [dream_id, title, content, emotion, intensity, date]);
 
   return (
     <BasicContainer>
