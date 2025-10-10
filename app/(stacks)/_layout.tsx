@@ -8,9 +8,6 @@ export default function StackLayout() {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="login" />
-      <Stack.Screen name="verifyEmail" />
-      <Stack.Screen name="register" />
     </Stack>
   );
 }

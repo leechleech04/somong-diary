@@ -9,6 +9,7 @@ import {
   BasicNextButtonText,
   MediumText,
 } from '@/utils/utilComponents';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -27,6 +28,10 @@ const Register = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [agreeAge, setAgreeAge] = useState(false);
 
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -49,6 +54,11 @@ const Register = () => {
 
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    if (!agreeTerms || !agreePrivacy || !agreeAge) {
+      alert('모든 필수 약관에 동의해야 합니다.');
       return;
     }
 
@@ -120,6 +130,45 @@ const Register = () => {
                 selectTextOnFocus={!isRegistered}
               />
             </AuthInputContainer>
+            <AgreeContainer>
+              <AgreeCheckbox
+                onPress={() => setAgreeTerms(!agreeTerms)}
+                checked={agreeTerms}
+              >
+                {agreeTerms && (
+                  <Ionicons name="checkmark" size={20} color={colors.white} />
+                )}
+              </AgreeCheckbox>
+              <AgreeText>(필수) 소몽일기 이용약관에 동의합니다</AgreeText>
+              <ViewAgreeContent onPress={() => router.push('/termsOfService')}>
+                <ViewAgreeContentText>[보기]</ViewAgreeContentText>
+              </ViewAgreeContent>
+            </AgreeContainer>
+            <AgreeContainer>
+              <AgreeCheckbox
+                onPress={() => setAgreePrivacy(!agreePrivacy)}
+                checked={agreePrivacy}
+              >
+                {agreePrivacy && (
+                  <Ionicons name="checkmark" size={20} color={colors.white} />
+                )}
+              </AgreeCheckbox>
+              <AgreeText>(필수) 개인정보 처리방침에 동의합니다</AgreeText>
+              <ViewAgreeContent onPress={() => router.push('/privacyPolicy')}>
+                <ViewAgreeContentText>[보기]</ViewAgreeContentText>
+              </ViewAgreeContent>
+            </AgreeContainer>
+            <AgreeContainer>
+              <AgreeCheckbox
+                onPress={() => setAgreeAge(!agreeAge)}
+                checked={agreeAge}
+              >
+                {agreeAge && (
+                  <Ionicons name="checkmark" size={20} color={colors.white} />
+                )}
+              </AgreeCheckbox>
+              <AgreeText>(필수) 본인은 만 14세 이상입니다</AgreeText>
+            </AgreeContainer>
           </MainContainer>
           <RegisterButton disabled={isRegistered} onPress={handleRegister}>
             <BasicNextButtonText>회원가입</BasicNextButtonText>
@@ -136,7 +185,7 @@ const Register = () => {
   );
 };
 
-const MainContainer = styled.View`
+const MainContainer = styled.ScrollView`
   flex: 1;
 `;
 
@@ -160,6 +209,40 @@ const PasswordRules = styled(MediumText)`
   line-height: 18px;
   text-align: right;
   color: ${colors.white};
+`;
+
+const AgreeContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16px;
+`;
+
+const AgreeCheckbox = styled.Pressable<{ checked: boolean }>`
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border-width: 2px;
+  border-color: ${colors.white};
+  background-color: ${({ checked }: { checked: boolean }) =>
+    checked ? colors.lightPurple : 'transparent'};
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+`;
+
+const AgreeText = styled(MediumText)`
+  font-size: 14px;
+  line-height: 16px;
+  color: ${colors.white};
+`;
+
+const ViewAgreeContent = styled.Pressable``;
+
+const ViewAgreeContentText = styled(MediumText)`
+  font-size: 14px;
+  line-height: 16px;
+  color: ${colors.lightPurple};
+  margin-left: 8px;
 `;
 
 const RegisterButton = styled(BasicNextButton)<{ disabled: boolean }>`
