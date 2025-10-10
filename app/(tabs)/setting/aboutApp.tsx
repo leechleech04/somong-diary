@@ -11,8 +11,7 @@ const aboutApp = () => {
         <MainIntro>
           당신의 꿈을 기록하고, 해석하며, 새로운 시선으로 탐험하는 공간
           {'\n'}
-          소몽일기는 단순한 꿈 일기장이 아니라, 꿈을 통해 나 자신을 발견하는
-          특별한 여정을 제공합니다.
+          소몽일기는 꿈을 통해 나 자신을 발견하는 특별한 여정을 제공합니다.
         </MainIntro>
         <SubTitle>📝 꿈 일기 기록</SubTitle>
         <SubContent>매일 꾼 꿈을 손쉽게 기록</SubContent>
@@ -74,7 +73,7 @@ const ComingSoon = styled.Text`
   font-family: 'NotoSansKR_Medium';
   font-size: 18px;
   line-height: 24px;
-  color: ${colors.gray};
+  color: ${colors.white};
   margin: 20px 0;
 `;
 
