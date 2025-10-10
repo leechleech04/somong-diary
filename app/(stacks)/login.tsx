@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -24,6 +25,7 @@ const Login = () => {
 
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = useCallback(async () => {
     if (!email || !password) {
@@ -34,6 +36,7 @@ const Login = () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/login`;
 
     try {
+      setLoading(true);
       const response = await axios.post(apiUrl, {
         email,
         password,
@@ -46,6 +49,8 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   }, [email, password, router]);
 
@@ -78,7 +83,11 @@ const Login = () => {
             </AuthInputContainer>
           </MainCcontainer>
           <NextButton onPress={handleLogin}>
-            <BasicNextButtonText>로그인</BasicNextButtonText>
+            {loading ? (
+              <ActivityIndicator color={colors.lightPurple} />
+            ) : (
+              <BasicNextButtonText>로그인</BasicNextButtonText>
+            )}
           </NextButton>
         </BasicContainer>
       </TouchableWithoutFeedback>

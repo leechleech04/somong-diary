@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -34,6 +35,8 @@ const Register = () => {
   const [agreeAge, setAgreeAge] = useState(false);
 
   const [isRegistered, setIsRegistered] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = useCallback(async () => {
     if (!username || !email || !password || !confirmPassword) {
@@ -65,6 +68,7 @@ const Register = () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/register`;
 
     try {
+      setLoading(true);
       const response = await axios.post(apiUrl, {
         email,
         username,
@@ -78,6 +82,8 @@ const Register = () => {
     } catch (error) {
       console.error('Error during registration:', error);
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   }, [
     email,
@@ -179,7 +185,11 @@ const Register = () => {
             </AgreeContainer>
           </MainContainer>
           <RegisterButton disabled={isRegistered} onPress={handleRegister}>
-            <BasicNextButtonText>회원가입</BasicNextButtonText>
+            {loading ? (
+              <ActivityIndicator color={colors.lightPurple} />
+            ) : (
+              <BasicNextButtonText>회원가입</BasicNextButtonText>
+            )}
           </RegisterButton>
           <NextButton
             disabled={!isRegistered}

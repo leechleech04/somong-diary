@@ -5,6 +5,7 @@ import { BasicContainer, BoldText } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 
 const ContactUs = () => {
@@ -13,6 +14,8 @@ const ContactUs = () => {
   const [contactType, setContactType] = useState<string>('bugReport');
   const [content, setContent] = useState<string>('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const sendInquiry = useCallback(async () => {
     if (content.length === 0) {
       alert('문의 내용을 입력해 주세요.');
@@ -20,6 +23,7 @@ const ContactUs = () => {
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/inquiry/submit`;
     try {
+      setIsLoading(true);
       const response = await axios.post(
         apiUrl,
         {
@@ -40,6 +44,8 @@ const ContactUs = () => {
       console.error('Error sending inquiry:', error);
       alert('문의 전송에 실패했습니다. 다시 시도해 주세요.');
       return;
+    } finally {
+      setIsLoading(false);
     }
   }, [contactType, content]);
 
@@ -73,7 +79,11 @@ const ContactUs = () => {
           onChangeText={setContent}
         />
         <SendButton onPress={sendInquiry}>
-          <SendButtonText>전송</SendButtonText>
+          {isLoading ? (
+            <ActivityIndicator color={colors.lightPurple} />
+          ) : (
+            <SendButtonText>전송</SendButtonText>
+          )}
         </SendButton>
       </ScrollView>
     </BasicContainer>

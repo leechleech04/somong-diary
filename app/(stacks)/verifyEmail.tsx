@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -27,6 +28,8 @@ const VerifyEmail = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [code, setCode] = useState<string | null>(null);
 
+  const [loading, setLoading] = useState(false);
+
   const handleGetCode = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/emailAuth`;
 
@@ -36,6 +39,7 @@ const VerifyEmail = () => {
     }
 
     try {
+      setLoading(true);
       const response = await axios.post(apiUrl, { email });
       if (response.status === 200) {
         setIsCodeSent(true);
@@ -46,6 +50,8 @@ const VerifyEmail = () => {
     } catch (error) {
       console.error('Error during email authentication:', error);
       alert('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   }, [email]);
 
@@ -58,6 +64,7 @@ const VerifyEmail = () => {
     }
 
     try {
+      setLoading(true);
       const response = await axios.post(apiUrl, { email, code });
       if (response.status === 200) {
         setIsEmailVerified(true);
@@ -66,6 +73,8 @@ const VerifyEmail = () => {
     } catch (error) {
       console.error('Error during code verification:', error);
       alert('인증번호 확인에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   }, [email, code]);
 
@@ -139,7 +148,11 @@ const VerifyEmail = () => {
               router.push({ pathname: '/(stacks)/register', params: { email } })
             }
           >
-            <BasicNextButtonText>다음</BasicNextButtonText>
+            {loading ? (
+              <ActivityIndicator color={colors.lightPurple} />
+            ) : (
+              <BasicNextButtonText>다음</BasicNextButtonText>
+            )}
           </NextButton>
         </BasicContainer>
       </TouchableWithoutFeedback>

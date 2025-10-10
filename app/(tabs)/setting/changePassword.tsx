@@ -12,6 +12,7 @@ import {
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 
 const ChangePassword = () => {
@@ -20,6 +21,7 @@ const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangePassword = useCallback(async () => {
     if (
@@ -49,6 +51,7 @@ const ChangePassword = () => {
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/changePassword`;
     try {
+      setIsLoading(true);
       const response = await axios.post(
         apiUrl,
         {
@@ -69,6 +72,8 @@ const ChangePassword = () => {
       console.error('Error changing password:', error);
       alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
       return;
+    } finally {
+      setIsLoading(false);
     }
   }, [currentPassword, newPassword, confirmNewPassword, router]);
 
@@ -105,7 +110,11 @@ const ChangePassword = () => {
           />
         </AuthInputContainer>
         <ChangeButton onPress={handleChangePassword}>
-          <ChangeButtonText>변경</ChangeButtonText>
+          {isLoading ? (
+            <ActivityIndicator color={colors.lightPurple} />
+          ) : (
+            <ChangeButtonText>변경</ChangeButtonText>
+          )}
         </ChangeButton>
       </ScrollView>
     </BasicContainer>

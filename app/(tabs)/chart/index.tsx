@@ -7,12 +7,14 @@ import styled from 'styled-components/native';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
 import emotions from '@/utils/emotions';
 import axios from 'axios';
-import { Dimensions } from 'react-native';
+import { ActivityIndicator, Dimensions } from 'react-native';
 
 const Chart = () => {
   const [selectedDuration, setSelectedDuration] = useState<
     'week' | 'month' | 'year' | 'all'
   >('week');
+
+  const [loading, setLoading] = useState(false);
 
   interface emotionDataType {
     emotion: string;
@@ -113,6 +115,7 @@ const Chart = () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}`;
     const fetchWeeklyData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`${apiUrl}/charts/weekly`, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -125,11 +128,14 @@ const Chart = () => {
         }
       } catch (error) {
         console.error('Error fetching weekly data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchMonthlyData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`${apiUrl}/charts/monthly`, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -142,11 +148,14 @@ const Chart = () => {
         }
       } catch (error) {
         console.error('Error fetching monthly data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchYearlyData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`${apiUrl}/charts/yearly`, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -159,11 +168,14 @@ const Chart = () => {
         }
       } catch (error) {
         console.error('Error fetching yearly data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchAllData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`${apiUrl}/charts/all`, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -176,6 +188,8 @@ const Chart = () => {
         }
       } catch (error) {
         console.error('Error fetching all data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -228,19 +242,23 @@ const Chart = () => {
           </DurationButton>
         </DurationContainer>
         <ChartTitle>감정 빈도 분포</ChartTitle>
-        <Pie
-          data={pieChartData}
-          width={Dimensions.get('window').width - 48}
-          height={200}
-          chartConfig={{
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          }}
-          accessor={'population'}
-          backgroundColor={'transparent'}
-          paddingLeft={'0'}
-          hasLegend={false}
-          center={[Dimensions.get('window').width / 4, 0]}
-        />
+        {loading ? (
+          <ActivityIndicator color={colors.lightPurple} />
+        ) : (
+          <Pie
+            data={pieChartData}
+            width={Dimensions.get('window').width - 48}
+            height={200}
+            chartConfig={{
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            }}
+            accessor={'population'}
+            backgroundColor={'transparent'}
+            paddingLeft={'0'}
+            hasLegend={false}
+            center={[Dimensions.get('window').width / 4, 0]}
+          />
+        )}
         <LegendScrollView>
           <LegendContainer>
             {pieChartData.map((item, index) => (

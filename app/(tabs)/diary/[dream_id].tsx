@@ -25,7 +25,8 @@ const DreamDetail = () => {
   const [dreamDiary, setDreamDiary] = useState<DreamDiaryType | null>(null);
   const [dreamAnalysis, setDreamAnalysis] = useState<string | null>(null);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDreamLoading, setIsDreamLoading] = useState(false);
+  const [isAnalysisLoading, setIsAnalysisLoading] = useState(false);
 
   useEffect(() => {
     if (!dreamDiary_id) {
@@ -36,6 +37,7 @@ const DreamDetail = () => {
     const fetchDreamDiary = async () => {
       const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/dreams/detail/${dreamDiary_id}`;
       try {
+        setIsDreamLoading(true);
         const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -53,6 +55,8 @@ const DreamDetail = () => {
         console.error('Error fetching dream diary:', error);
         alert('꿈 일기 상세를 불러오는데 실패했습니다. 다시 시도해 주세요.');
         router.back();
+      } finally {
+        setIsDreamLoading(false);
       }
     };
 
@@ -70,7 +74,7 @@ const DreamDetail = () => {
 
       const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/analysis/existing/${dreamDiary_id}`;
       try {
-        setIsLoading(true);
+        setIsAnalysisLoading(true);
         const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -80,9 +84,9 @@ const DreamDetail = () => {
         if (response.data.analysis) {
           setDreamAnalysis(response.data.analysis);
         }
-        setIsLoading(false);
+        setIsAnalysisLoading(false);
       } catch (error) {
-        setIsLoading(false);
+        setIsAnalysisLoading(false);
         console.error('Error fetching dream analysis:', error);
       }
     };
@@ -95,7 +99,7 @@ const DreamDetail = () => {
 
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/analysis/new/${dreamDiary_id}`;
     try {
-      setIsLoading(true);
+      setIsAnalysisLoading(true);
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${await getAccessTokenFromMemory()}`,
@@ -106,9 +110,9 @@ const DreamDetail = () => {
         setDreamAnalysis(response.data.analysis);
         setDreamDiary((prev) => (prev ? { ...prev, hasAnalysis: true } : prev));
       }
-      setIsLoading(false);
+      setIsAnalysisLoading(false);
     } catch (error) {
-      setIsLoading(false);
+      setIsAnalysisLoading(false);
       console.error('Error creating dream analysis:', error);
       alert('꿈 해몽 생성에 실패했습니다. 다시 시도해 주세요.');
     }
@@ -145,7 +149,11 @@ const DreamDetail = () => {
               weekday: 'long',
             })}
           </DateText>
-          <ContentText>{dreamDiary.content}</ContentText>
+          {isDreamLoading ? (
+            <ActivityIndicator color={colors.lightPurple} />
+          ) : (
+            <ContentText>{dreamDiary.content}</ContentText>
+          )}
           {dreamDiary.emotion && (
             <EmotionContainer>
               <EmotionText>
@@ -184,7 +192,7 @@ const DreamDetail = () => {
               <DeleteButtonText>삭제하기</DeleteButtonText>
             </DeleteButton>
           </ButtonContainer>
-          {!isLoading && (
+          {!isAnalysisLoading && (
             <>
               {dreamAnalysis ? (
                 <DreamAnalysisContainer>
@@ -217,13 +225,13 @@ const DreamDetail = () => {
               )}
             </>
           )}
-          {isLoading && (
-            <LoadingContainer>
+          {isAnalysisLoading && (
+            <IsAnalysisLoadingContainer>
               <MediumText style={{ color: colors.white }}>
                 AI 해몽 불러오는 중...
               </MediumText>
               <ActivityIndicator color={colors.lightPurple} />
-            </LoadingContainer>
+            </IsAnalysisLoadingContainer>
           )}
         </BodyContainer>
       )}
@@ -336,7 +344,7 @@ const GetDreamAnalysisButton = styled(BasicNextButton)`
 
 const GetDreamAnalysisButtonText = styled(BasicNextButtonText)``;
 
-const LoadingContainer = styled.View`
+const IsAnalysisLoadingContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
