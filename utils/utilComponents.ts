@@ -11,7 +11,7 @@ export const MediumText = styled.Text`
 
 export const BasicContainer = styled.View`
   flex: 1;
-  padding: 0 24px;
+  padding: 12px 24px;
   background-color: ${colors.backgroundPurple};
 `;
 
@@ -25,7 +25,9 @@ export const AuthInputLabel = styled(BoldText)`
   line-height: 22px;
 `;
 
-export const AuthInput = styled.TextInput`
+export const AuthInput = styled.TextInput.attrs({
+  placeholderTextColor: colors.gray,
+})`
   padding: 16px;
   border-radius: 8px;
   color: ${colors.black};

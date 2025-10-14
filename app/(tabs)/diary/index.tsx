@@ -67,20 +67,24 @@ const List = () => {
 
   return (
     <BasicContainer>
-      <FlashList
-        data={dreamList}
-        renderItem={({ item }) => <DreamListItem dream={item} />}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-        ListEmptyComponent={() => <DreamListEmpty />}
-        onEndReached={fetchDreamList}
-        ListFooterComponent={() => {
-          if (isLoading && dreamList.length > 0) {
-            return <ActivityIndicator color={colors.lightPurple} />;
-          } else {
-            return null;
-          }
-        }}
-      />
+      {isLoading && dreamList.length === 0 ? (
+        <ActivityIndicator color={colors.lightPurple} />
+      ) : (
+        <FlashList
+          data={dreamList}
+          renderItem={({ item }) => <DreamListItem dream={item} />}
+          ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+          ListEmptyComponent={() => <DreamListEmpty />}
+          onEndReached={fetchDreamList}
+          ListFooterComponent={() => {
+            if (isLoading && dreamList.length > 0) {
+              return <ActivityIndicator color={colors.lightPurple} />;
+            } else {
+              return null;
+            }
+          }}
+        />
+      )}
       <WriteDreamButton
         onPress={() => {
           router.push('/(tabs)/diary/new');

@@ -6,12 +6,35 @@ import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
 import axios from 'axios';
-import { useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
 const New = () => {
   const router = useRouter();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+
+      Alert.alert('변경사항이 저장되지 않았습니다', '이동하시겠습니까?', [
+        {
+          text: '취소',
+          style: 'cancel',
+          onPress: () => e.preventDefault(),
+        },
+        {
+          text: '이동',
+          style: 'destructive',
+          onPress: () => navigation.dispatch(e.data.action),
+        },
+      ]);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const [title, setTitle] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);

@@ -15,9 +15,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
-  Keyboard,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -96,97 +95,98 @@ const Register = () => {
   ]);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback
-        style={{ flex: 1 }}
-        onPress={Keyboard.dismiss}
-        accessible={false}
-      >
-        <BasicContainer>
-          <Header title="회원가입" />
-          <MainContainer>
-            <AuthInputContainer>
-              <AuthInputLabel>이메일</AuthInputLabel>
-              <EmailInput editable={false} selectTextOnFocus={false}>
-                {email}
-              </EmailInput>
-            </AuthInputContainer>
-            <AuthInputContainer>
-              <AuthInputLabel>이름</AuthInputLabel>
-              <UsernameInput
-                placeholder="이름을 입력해주세요."
-                value={username}
-                onChangeText={setUsername}
-                editable={!isRegistered}
-                selectTextOnFocus={!isRegistered}
-              />
-            </AuthInputContainer>
-            <AuthInputContainer>
-              <AuthInputLabel>비밀번호</AuthInputLabel>
-              <PasswordInput
-                placeholder="비밀번호를 입력해주세요."
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-                editable={!isRegistered}
-                selectTextOnFocus={!isRegistered}
-              />
-              <PasswordRules>영문, 숫자, 특수문자 포함 8자 이상</PasswordRules>
-            </AuthInputContainer>
-            <AuthInputContainer>
-              <AuthInputLabel>비밀번호 확인</AuthInputLabel>
-              <PasswordInput
-                placeholder="비밀번호를 다시 입력해주세요."
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry={true}
-                editable={!isRegistered}
-                selectTextOnFocus={!isRegistered}
-              />
-            </AuthInputContainer>
-            <AgreeContainer>
-              <AgreeCheckbox
-                onPress={() => setAgreeTerms(!agreeTerms)}
-                checked={agreeTerms}
-              >
-                {agreeTerms && (
-                  <Ionicons name="checkmark" size={20} color={colors.white} />
-                )}
-              </AgreeCheckbox>
-              <AgreeText>(필수) 소몽일기 이용약관에 동의합니다</AgreeText>
-              <ViewAgreeContent onPress={() => router.push('/termsOfService')}>
-                <ViewAgreeContentText>[보기]</ViewAgreeContentText>
-              </ViewAgreeContent>
-            </AgreeContainer>
-            <AgreeContainer>
-              <AgreeCheckbox
-                onPress={() => setAgreePrivacy(!agreePrivacy)}
-                checked={agreePrivacy}
-              >
-                {agreePrivacy && (
-                  <Ionicons name="checkmark" size={20} color={colors.white} />
-                )}
-              </AgreeCheckbox>
-              <AgreeText>(필수) 개인정보 처리방침에 동의합니다</AgreeText>
-              <ViewAgreeContent onPress={() => router.push('/privacyPolicy')}>
-                <ViewAgreeContentText>[보기]</ViewAgreeContentText>
-              </ViewAgreeContent>
-            </AgreeContainer>
-            <AgreeContainer>
-              <AgreeCheckbox
-                onPress={() => setAgreeAge(!agreeAge)}
-                checked={agreeAge}
-              >
-                {agreeAge && (
-                  <Ionicons name="checkmark" size={20} color={colors.white} />
-                )}
-              </AgreeCheckbox>
-              <AgreeText>(필수) 본인은 만 14세 이상입니다</AgreeText>
-            </AgreeContainer>
-          </MainContainer>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <BasicContainer>
+        <Header title="회원가입" />
+        <MainContainer keyboardShouldPersistTaps="handled">
+          <AuthInputContainer>
+            <AuthInputLabel>이메일</AuthInputLabel>
+            <EmailInput editable={false} selectTextOnFocus={false}>
+              {email}
+            </EmailInput>
+          </AuthInputContainer>
+          <AuthInputContainer>
+            <AuthInputLabel>이름</AuthInputLabel>
+            <UsernameInput
+              placeholder="이름을 입력해주세요."
+              value={username}
+              onChangeText={setUsername}
+              editable={!isRegistered}
+              selectTextOnFocus={!isRegistered}
+            />
+          </AuthInputContainer>
+          <AuthInputContainer>
+            <AuthInputLabel>비밀번호</AuthInputLabel>
+            <PasswordInput
+              placeholder="비밀번호를 입력해주세요."
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              editable={!isRegistered}
+              selectTextOnFocus={!isRegistered}
+            />
+            <PasswordRules>영문, 숫자, 특수문자 포함 8자 이상</PasswordRules>
+          </AuthInputContainer>
+          <AuthInputContainer>
+            <AuthInputLabel>비밀번호 확인</AuthInputLabel>
+            <PasswordInput
+              placeholder="비밀번호를 다시 입력해주세요."
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry={true}
+              editable={!isRegistered}
+              selectTextOnFocus={!isRegistered}
+            />
+          </AuthInputContainer>
+          <AgreeContainer>
+            <AgreeCheckbox
+              onPress={() => setAgreeTerms(!agreeTerms)}
+              checked={agreeTerms}
+            >
+              {agreeTerms && (
+                <Ionicons name="checkmark" size={20} color={colors.white} />
+              )}
+            </AgreeCheckbox>
+            <AgreeText>(필수) 소몽일기 이용약관에 동의합니다</AgreeText>
+            <ViewAgreeContent onPress={() => router.push('/termsOfService')}>
+              <ViewAgreeContentText>[보기]</ViewAgreeContentText>
+            </ViewAgreeContent>
+          </AgreeContainer>
+          <AgreeContainer>
+            <AgreeCheckbox
+              onPress={() => setAgreePrivacy(!agreePrivacy)}
+              checked={agreePrivacy}
+            >
+              {agreePrivacy && (
+                <Ionicons name="checkmark" size={20} color={colors.white} />
+              )}
+            </AgreeCheckbox>
+            <AgreeText>(필수) 개인정보 처리방침에 동의합니다</AgreeText>
+            <ViewAgreeContent onPress={() => router.push('/privacyPolicy')}>
+              <ViewAgreeContentText>[보기]</ViewAgreeContentText>
+            </ViewAgreeContent>
+          </AgreeContainer>
+          <AgreeContainer>
+            <AgreeCheckbox
+              onPress={() => setAgreeAge(!agreeAge)}
+              checked={agreeAge}
+            >
+              {agreeAge && (
+                <Ionicons name="checkmark" size={20} color={colors.white} />
+              )}
+            </AgreeCheckbox>
+            <AgreeText>(필수) 본인은 만 14세 이상입니다</AgreeText>
+          </AgreeContainer>
           <RegisterButton disabled={isRegistered} onPress={handleRegister}>
             {loading ? (
-              <ActivityIndicator color={colors.lightPurple} />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <BasicNextButtonText>회원가입</BasicNextButtonText>
             )}
@@ -197,8 +197,8 @@ const Register = () => {
           >
             <BasicNextButtonText>로그인</BasicNextButtonText>
           </NextButton>
-        </BasicContainer>
-      </TouchableWithoutFeedback>
+        </MainContainer>
+      </BasicContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -264,6 +264,7 @@ const ViewAgreeContentText = styled(MediumText)`
 `;
 
 const RegisterButton = styled(BasicNextButton)<{ disabled: boolean }>`
+  margin-top: 40px;
   margin-bottom: 12px;
   background-color: ${({ disabled }: { disabled: boolean }) =>
     disabled ? colors.gray : colors.lightPurple};

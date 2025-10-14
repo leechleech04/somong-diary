@@ -1,6 +1,7 @@
 import { colors } from '@/utils/colors';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
 const Index = () => {
@@ -8,34 +9,35 @@ const Index = () => {
 
   return (
     <Container>
-      <MainImage
-        source={require('@/assets/images/main-image.png')}
-        resizeMode="contain"
-      />
-      <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
-      <Title>소몽일기</Title>
-      <LoginButton
-        onPress={() => {
-          router.push('/(stacks)/login');
-        }}
-      >
-        <ButtonText>로그인</ButtonText>
-      </LoginButton>
-      <RegisterButton
-        onPress={() => {
-          router.push('/(stacks)/verifyEmail');
-        }}
-      >
-        <ButtonText>회원가입</ButtonText>
-      </RegisterButton>
+      <BasicContainer>
+        <MainImage
+          source={require('@/assets/images/main-image.png')}
+          resizeMode="contain"
+        />
+        <MainComment>당신의 작은 꿈이 머무는 공간</MainComment>
+        <Title>소몽일기</Title>
+        <LoginButton
+          onPress={() => {
+            router.push('/(stacks)/login');
+          }}
+        >
+          <ButtonText>로그인</ButtonText>
+        </LoginButton>
+        <RegisterButton
+          onPress={() => {
+            router.push('/(stacks)/verifyEmail');
+          }}
+        >
+          <ButtonText>회원가입</ButtonText>
+        </RegisterButton>
+      </BasicContainer>
     </Container>
   );
 };
 
-const Container = styled(BasicContainer)`
+const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: ${colors.backgroundPurple};
-  padding: 0 24px;
+  width: 100%;
 `;
 
 const MainImage = styled.Image`

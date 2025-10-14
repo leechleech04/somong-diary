@@ -44,7 +44,8 @@ const Login = () => {
       if (response.status === 200) {
         alert('로그인에 성공했습니다.');
         await saveTokens(response.data.accessToken, response.data.refreshToken);
-        router.push({ pathname: '/(tabs)/home' });
+        router.dismissAll();
+        router.replace({ pathname: '/(tabs)/home' });
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -68,6 +69,10 @@ const Login = () => {
               <AuthInputLabel>이메일</AuthInputLabel>
               <LoginInput
                 placeholder="이메일을 입력해주세요."
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="emailAddress"
                 value={email}
                 onChangeText={setEmail}
               />
@@ -76,6 +81,8 @@ const Login = () => {
               <AuthInputLabel>비밀번호</AuthInputLabel>
               <LoginInput
                 placeholder="비밀번호를 입력해주세요."
+                autoCapitalize="none"
+                autoCorrect={false}
                 secureTextEntry={true}
                 value={password}
                 onChangeText={setPassword}
@@ -84,7 +91,7 @@ const Login = () => {
           </MainCcontainer>
           <NextButton onPress={handleLogin}>
             {loading ? (
-              <ActivityIndicator color={colors.lightPurple} />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <BasicNextButtonText>로그인</BasicNextButtonText>
             )}

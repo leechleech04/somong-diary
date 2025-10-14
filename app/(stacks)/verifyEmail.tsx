@@ -28,7 +28,8 @@ const VerifyEmail = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [code, setCode] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState(false);
+  const [getCodeIsLoading, setGetCodeIsLoading] = useState(false);
+  const [verifyCodeIsLoading, setVerifyCodeIsLoading] = useState(false);
 
   const handleGetCode = useCallback(async () => {
     const apiUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/emailAuth`;
@@ -39,7 +40,7 @@ const VerifyEmail = () => {
     }
 
     try {
-      setLoading(true);
+      setGetCodeIsLoading(true);
       const response = await axios.post(apiUrl, { email });
       if (response.status === 200) {
         setIsCodeSent(true);
@@ -51,7 +52,7 @@ const VerifyEmail = () => {
       console.error('Error during email authentication:', error);
       alert('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
     } finally {
-      setLoading(false);
+      setGetCodeIsLoading(false);
     }
   }, [email]);
 
@@ -64,7 +65,7 @@ const VerifyEmail = () => {
     }
 
     try {
-      setLoading(true);
+      setVerifyCodeIsLoading(true);
       const response = await axios.post(apiUrl, { email, code });
       if (response.status === 200) {
         setIsEmailVerified(true);
@@ -74,7 +75,7 @@ const VerifyEmail = () => {
       console.error('Error during code verification:', error);
       alert('인증번호 확인에 실패했습니다. 다시 시도해주세요.');
     } finally {
-      setLoading(false);
+      setVerifyCodeIsLoading(false);
     }
   }, [email, code]);
 
@@ -112,9 +113,13 @@ const VerifyEmail = () => {
                 disabled={isEmailVerified}
                 isEmailVerified={isEmailVerified}
               >
-                <GetCodeButtonText>
-                  {!isCodeSent ? '인증번호 요청' : '인증번호 재요청'}
-                </GetCodeButtonText>
+                {getCodeIsLoading ? (
+                  <ActivityIndicator color={colors.black} />
+                ) : (
+                  <GetCodeButtonText>
+                    {!isCodeSent ? '인증번호 요청' : '인증번호 재요청'}
+                  </GetCodeButtonText>
+                )}
               </GetCodeButton>
             </AuthInputContainer>
             {isCodeSent && (
@@ -134,9 +139,13 @@ const VerifyEmail = () => {
                   disabled={isEmailVerified}
                   isEmailVerified={isEmailVerified}
                 >
-                  <VerifyCodeButtonText>
-                    {isEmailVerified ? '인증 완료' : '인증'}
-                  </VerifyCodeButtonText>
+                  {verifyCodeIsLoading ? (
+                    <ActivityIndicator color={colors.black} />
+                  ) : (
+                    <VerifyCodeButtonText>
+                      {isEmailVerified ? '인증 완료' : '인증'}
+                    </VerifyCodeButtonText>
+                  )}
                 </VerifyCodeButton>
               </CodeInputContainer>
             )}
@@ -148,11 +157,7 @@ const VerifyEmail = () => {
               router.push({ pathname: '/(stacks)/register', params: { email } })
             }
           >
-            {loading ? (
-              <ActivityIndicator color={colors.lightPurple} />
-            ) : (
-              <BasicNextButtonText>다음</BasicNextButtonText>
-            )}
+            <BasicNextButtonText>다음</BasicNextButtonText>
           </NextButton>
         </BasicContainer>
       </TouchableWithoutFeedback>

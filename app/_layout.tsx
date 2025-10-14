@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 
 SplashScreen.preventAutoHideAsync();
@@ -92,7 +91,7 @@ const RootLayout = () => {
   );
 };
 
-const Container = styled(SafeAreaView)`
+const Container = styled.View`
   flex: 1;
   background-color: ${colors.backgroundPurple};
 `;
