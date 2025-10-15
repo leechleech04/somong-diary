@@ -5,9 +5,10 @@ import emotions from '@/utils/emotions';
 import { BasicContainer, BoldText, MediumText } from '@/utils/utilComponents';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
+import { usePreventRemove } from '@react-navigation/native';
 import axios from 'axios';
 import { useNavigation, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -15,26 +16,22 @@ const New = () => {
   const router = useRouter();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
 
-      Alert.alert('변경사항이 저장되지 않았습니다', '이동하시겠습니까?', [
+  usePreventRemove(hasUnsavedChanges, ({ data }) => {
+    Alert.alert(
+      '변경 내용이 저장되지 않았습니다.',
+      '정말로 나가시겠습니까? 변경 내용은 저장되지 않습니다.',
+      [
+        { text: '취소', style: 'cancel', onPress: () => {} },
         {
-          text: '취소',
-          style: 'cancel',
-          onPress: () => e.preventDefault(),
-        },
-        {
-          text: '이동',
+          text: '나가기',
           style: 'destructive',
-          onPress: () => navigation.dispatch(e.data.action),
+          onPress: () => navigation.dispatch(data.action),
         },
-      ]);
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+      ]
+    );
+  });
 
   const [title, setTitle] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);
@@ -53,6 +50,8 @@ const New = () => {
       alert('유효한 감정을 선택해 주세요');
       return;
     }
+
+    setHasUnsavedChanges(false);
 
     const currentDate = date || new Date();
 
