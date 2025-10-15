@@ -14,6 +14,7 @@ const OpenSourceLicenses = () => {
         <ItemText>React Native - MIT License</ItemText>
         <SectionText>[Expo SDK]</SectionText>
         <ItemText>Expo - MIT License</ItemText>
+        <ItemText>Expo Asset - MIT License</ItemText>
         <ItemText>Expo Constants - MIT License</ItemText>
         <ItemText>Expo Font - MIT License</ItemText>
         <ItemText>Expo Haptics - MIT License</ItemText>

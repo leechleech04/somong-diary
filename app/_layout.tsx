@@ -4,6 +4,7 @@ import {
 } from '@/utils/authToken';
 import { colors } from '@/utils/colors';
 import axios from 'axios';
+import { Asset } from 'expo-asset';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -14,20 +15,33 @@ SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const deleteTokensFunc = async () => {
-  //     await deleteTokens();
-  //   };
-  //   deleteTokensFunc();
-  // }, []);
-
-  const [isFontLoaded, error] = useFonts({
+  const [isFontLoaded, fontError] = useFonts({
     NotoSansKR_Medium: require('../assets/fonts/NotoSansKR-Medium.ttf'),
     NotoSansKR_Bold: require('../assets/fonts/NotoSansKR-Bold.ttf'),
   });
 
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const images = [
+          require('../assets/images/home-image.png'),
+          require('../assets/images/waiting-image.png'),
+        ];
+
+        await Asset.loadAsync(images);
+        setIsImagesLoaded(true);
+      } catch (error) {
+        console.error('Error loading images:', error);
+        setIsImagesLoaded(true);
+      }
+    };
+
+    loadImages();
+  }, []);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -55,8 +69,8 @@ const RootLayout = () => {
             setIsLoggedIn(false);
           }
         }
-      } catch (error) {
-        console.error('Error checking login status:', error);
+      } catch (fontError) {
+        console.error('Error checking login status:', fontError);
       } finally {
         setIsAuthChecked(true);
       }
@@ -65,22 +79,17 @@ const RootLayout = () => {
   }, []);
 
   useEffect(() => {
-    if ((isFontLoaded || error) && isAuthChecked) {
-      SplashScreen.hideAsync();
-    }
-  }, [isFontLoaded, error, isAuthChecked]);
-
-  useEffect(() => {
-    if (isAuthChecked) {
+    if ((isFontLoaded || fontError) && isAuthChecked) {
       if (isLoggedIn) {
         router.replace('/(tabs)/home');
       } else {
         router.replace('/');
       }
+      SplashScreen.hideAsync();
     }
-  }, [isAuthChecked, isLoggedIn, router]);
+  }, [isFontLoaded, fontError, isAuthChecked, isLoggedIn, router]);
 
-  if ((!isFontLoaded && !error) || !isAuthChecked) {
+  if ((!isFontLoaded && !fontError) || !isAuthChecked) {
     return null;
   }
 

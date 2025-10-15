@@ -4,10 +4,12 @@ import TodayDreamDiary from '@/components/home/TodayDreamDiary';
 import WriteDreamModal from '@/components/home/WriteDreamModal';
 import { DreamDiaryType } from '@/types/dream';
 import { getAccessTokenFromMemory } from '@/utils/authToken';
-import { BasicContainer } from '@/utils/utilComponents';
+import { colors } from '@/utils/colors';
+import { BasicContainer, BoldText } from '@/utils/utilComponents';
 import axios from 'axios';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 const Home = () => {
@@ -88,6 +90,17 @@ const Home = () => {
         {hasDreamAnalysis && (
           <TodayDreamAnalysis todayDreamAnalysis={todayDreamAnalysis} />
         )}
+        {!hasTodayDream ? (
+          <>
+            <NoDreamImage
+              source={require('@/assets/images/home-image.png')}
+              resizeMode="contain"
+            />
+            <NoDreamTitle>
+              어젯밤의 꿈이 사라지기 전에, 기록해볼까요?
+            </NoDreamTitle>
+          </>
+        ) : null}
       </ScrollView>
     </BasicContainer>
   );
@@ -96,6 +109,19 @@ const Home = () => {
 const ScrollView = styled.ScrollView`
   width: 100%;
   flex: 1;
+`;
+
+const NoDreamImage = styled.Image`
+  width: 100%;
+  height: ${Dimensions.get('window').width * (2 / 3)}px;
+`;
+
+const NoDreamTitle = styled(BoldText)`
+  font-size: 24px;
+  line-height: 38px;
+  text-align: center;
+  color: ${colors.white};
+  margin-top: 32px;
 `;
 
 export default Home;
